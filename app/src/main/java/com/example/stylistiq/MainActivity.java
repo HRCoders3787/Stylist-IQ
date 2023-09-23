@@ -12,6 +12,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         System.out.println("Hello world!");
+        System.out.println("JAi Hind Dosto!");
 
         System.out.println("FROM RUPESH SOIDE PCE hkjfhdjfh");
     }
