@@ -13,7 +13,10 @@
         android:theme="@style/Theme.StylistIQ"
         tools:targetApi="31">
         <activity
-            android:name=".MainActivity"
+            android:name=".Onboarding_Screen.Onboarding1"
+            android:exported="false" />
+        <activity
+            android:name=".Splash_Screen.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
