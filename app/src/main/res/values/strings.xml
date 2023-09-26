@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">Stylist IQ</string>
+    <string name="slider_layout_header1">Discover Your Style with Stylist IQ</string>
+    <string name="slider_layout_content1">Discover your unique style with our AI- powered recommendations.</string>
+    <string name="slider_layout_btn_text1">Next up!</string>
+
+    <string name="slider_layout_header2">Perfect Outfits, Every Day</string>
+    <string name="slider_layout_content2">Say goodbye to wardrobe dilemmas. StylistIQ creates perfect outfits for every occasion.</string>
+    <string name="slider_layout_btn_text2">Get started!</string>
 </resources>
