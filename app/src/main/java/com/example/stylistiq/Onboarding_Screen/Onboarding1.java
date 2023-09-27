@@ -9,11 +9,12 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.stylistiq.Adapters.ViewPageAdapter;
+import com.example.stylistiq.CustomPageTransformation;
 import com.example.stylistiq.R;
 
 public class Onboarding1 extends AppCompatActivity {
 
-    ViewPager slideViewPager;
+    public static ViewPager slideViewPager;
     LinearLayout indicatorLayout;
     ImageView[] dash;
     ViewPageAdapter viewPageAdapter;
@@ -29,6 +30,7 @@ public class Onboarding1 extends AppCompatActivity {
         viewPageAdapter = new ViewPageAdapter(Onboarding1.this);
         slideViewPager.setAdapter(viewPageAdapter);
 
+        slideViewPager.setPageTransformer(true, new CustomPageTransformation());
         setUpIndicator(0);
         slideViewPager.addOnPageChangeListener(viewListener);
     }
