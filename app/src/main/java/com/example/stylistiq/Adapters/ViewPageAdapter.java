@@ -1,85 +1,67 @@
 package com.example.stylistiq.Adapters;
 
 import android.content.Context;
-
-import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 
-import android.widget.LinearLayout;
+import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
-import androidx.core.content.res.ResourcesCompat;
-import androidx.viewpager.widget.PagerAdapter;
-import androidx.viewpager.widget.ViewPager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.stylistiq.Models.OnboardingItem;
 import com.example.stylistiq.R;
 
-public class ViewPageAdapter extends PagerAdapter {
+import java.util.List;
 
-    Context context;
-    int[] images = {
-            R.drawable.onboarding_background,
-            R.drawable.onboarding_background2
-    };
+public class ViewPageAdapter extends RecyclerView.Adapter<ViewPageAdapter.OnboardingViewHolder> {
 
-    int[] heading = {
-            R.string.slider_layout_header1,
-            R.string.slider_layout_header2
-    };
+    private List<OnboardingItem> onboardingItemList;
+    private static Context context;
 
-    int[] description = {
-            R.string.slider_layout_content1,
-            R.string.slider_layout_content2
-    };
-
-    int[] btnText = {
-            R.string.slider_layout_btn_text1,
-            R.string.slider_layout_btn_text2
-    };
-
-    public ViewPageAdapter(Context context) {
+    public ViewPageAdapter(List<OnboardingItem> onboardingItemList, Context context) {
+        this.onboardingItemList = onboardingItemList;
         this.context = context;
-    }
-
-    @Override
-    public int getCount() {
-        return heading.length;
-    }
-
-    @Override
-    public boolean isViewFromObject(@NonNull View view, @NonNull Object object) {
-        return view == (LinearLayout) object;
     }
 
     @NonNull
     @Override
-    public Object instantiateItem(@NonNull ViewGroup container, int position) {
-        LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(context.LAYOUT_INFLATER_SERVICE);
-        View view = layoutInflater.inflate(R.layout.slider_layout, container, false);
-
-        TextView sliderHeaderText = (TextView) view.findViewById(R.id.header_title);
-        TextView sliderContentText = (TextView) view.findViewById(R.id.content);
-        TextView sliderButtonText = (TextView) view.findViewById(R.id.indBtn);
-        ViewPager slideViewPager = (ViewPager) view.findViewById(R.id.slideViewPager);
-
-        LinearLayout linearBackground = (LinearLayout) view.findViewById(R.id.linearBackground);
-        sliderHeaderText.setText(heading[position]);
-        sliderContentText.setText(description[position]);
-        sliderButtonText.setText(btnText[position]);
-
-        Drawable drawable = ResourcesCompat.getDrawable(context.getResources(), images[position], null);
-
-        linearBackground.setBackground(drawable);
-        container.addView(view);
-        return view;
+    public OnboardingViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        return new OnboardingViewHolder(
+                LayoutInflater.from(parent.getContext()).inflate(R.layout.slider_layout, parent, false)
+        );
     }
 
     @Override
-    public void destroyItem(@NonNull ViewGroup container, int position, @NonNull Object object) {
-        container.removeView((LinearLayout) object);
+    public void onBindViewHolder(@NonNull OnboardingViewHolder holder, int position) {
+
+        holder.setOnboardingData(onboardingItemList.get(position));
     }
+
+    @Override
+    public int getItemCount() {
+        return onboardingItemList.size();
+    }
+
+    class OnboardingViewHolder extends RecyclerView.ViewHolder {
+
+        private TextView header_title;
+        private TextView content;
+
+        public OnboardingViewHolder(@NonNull View itemView) {
+            super(itemView);
+            header_title = itemView.findViewById(R.id.header_title);
+            content = itemView.findViewById(R.id.content);
+        }
+
+        void setOnboardingData(OnboardingItem onboardingItem) {
+            Toast.makeText(context, "" + onboardingItem.getHeader(), Toast.LENGTH_SHORT).show();
+            header_title.setText(onboardingItem.getHeader());
+            content.setText(onboardingItem.getDescription());
+        }
+    }
+
 }

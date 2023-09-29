@@ -3,7 +3,6 @@
     android:layout_width="match_parent"
     android:id="@+id/linearBackground"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:padding="20dp">
 
@@ -28,31 +27,4 @@
         android:textColor="@color/textColor"
         android:layout_marginEnd="12dp"
         android:fontFamily="@font/raleway_medium"/>
-
-    <androidx.cardview.widget.CardView
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginTop="50dp"
-        app:cardCornerRadius="50dp"
-        android:padding="5dp"
-        android:clickable="true"
-        android:focusable="true"
-        android:foreground="?android:attr/selectableItemBackground">
-        <TextView
-            android:id="@+id/indBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Next up!"
-            android:fontFamily="@font/be_vietnam_pro_medium"
-            android:textSize="18sp"
-            android:layout_gravity="center"
-            android:textColor="@color/textColor"/>
-        <ImageView
-            android:layout_width="42dp"
-            android:layout_height="42dp"
-            android:src="@drawable/circle_btn"
-            android:layout_marginTop="3dp"
-            android:layout_marginEnd="5dp"
-            android:layout_gravity="end"/>
-    </androidx.cardview.widget.CardView>
 </LinearLayout>
