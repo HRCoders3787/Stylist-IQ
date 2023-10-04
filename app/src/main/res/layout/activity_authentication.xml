@@ -7,7 +7,7 @@
     android:background="@drawable/authentication_background"
     android:orientation="vertical"
     android:paddingStart="20dp"
-    android:paddingTop="150dp"
+    android:paddingTop="140dp"
     android:paddingEnd="20dp"
     tools:context=".Authentication_Panel.Authentication">
 
@@ -29,6 +29,7 @@
         android:textSize="18sp" />
 
     <androidx.cardview.widget.CardView
+        android:id="@+id/logInBtn"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_marginTop="60dp"
@@ -40,7 +41,6 @@
         app:cardElevation="2dp">
 
         <TextView
-            android:id="@+id/logInBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -51,53 +51,87 @@
             android:textSize="18sp" />
 
         <ImageView
-            android:layout_width="42dp"
-            android:layout_height="42dp"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:layout_gravity="end"
             android:layout_marginTop="3dp"
             android:layout_marginEnd="5dp"
             android:src="@drawable/circle_btn" />
     </androidx.cardview.widget.CardView>
 
-
-    <androidx.cardview.widget.CardView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginTop="16dp"
-        android:background="@android:color/transparent"
-        android:clickable="true"
-        android:focusable="true"
-        android:padding="5dp"
-        app:cardBackgroundColor="#0000"
-        app:cardCornerRadius="50dp"
-        app:cardElevation="1dp">
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:layout_gravity="center"
+        android:gravity="center">
+
+        <View
+            android:layout_width="156dp"
+            android:layout_height="2dp"
+            android:layout_gravity="center"
+            android:layout_marginEnd="20dp"
+            android:background="@color/or_dash" />
 
         <TextView
-            android:id="@+id/loginGoogleBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
             android:fontFamily="@font/be_vietnam_pro_medium"
+            android:text="OR"
+            android:layout_gravity="center"
             android:gravity="center"
-            android:text="@string/login_google"
-            android:textColor="#ffff"
-            android:textSize="18sp" />
+            android:textColor="@color/white"
+            android:textSize="14sp" />
 
+        <View
+            android:layout_width="160dp"
+            android:layout_height="2dp"
+            android:layout_gravity="center"
+            android:layout_marginStart="20dp"
+            android:background="@color/or_dash" />
+    </LinearLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp">
+
+        <!-- Transparent Button -->
+        <Button
+            android:id="@+id/googleBtn"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@drawable/google_btn_background"
+            android:fontFamily="@font/be_vietnam_pro_medium"
+            android:text="@string/login_google"
+            android:textColor="#FFFFFF"
+            android:clickable="true"
+            android:focusable="true"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <!-- Icon at the End -->
         <ImageView
             android:layout_width="42dp"
             android:layout_height="42dp"
-            android:layout_gravity="end"
-            android:layout_marginTop="3dp"
-            android:layout_marginEnd="5dp"
-            android:src="@drawable/google_icon" />
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
+            android:src="@drawable/google_icon"
+            android:background="#0000"
+            app:layout_constraintBottom_toBottomOf="@id/googleBtn"
+            app:layout_constraintEnd_toEndOf="@id/googleBtn"
+            app:layout_constraintTop_toTopOf="@id/googleBtn" />
 
-    </androidx.cardview.widget.CardView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginBottom="40dp"
+        android:layout_marginTop="145dp"
+        android:gravity="center"
         android:orientation="horizontal">
 
         <TextView
@@ -110,13 +144,14 @@
             android:textSize="18dp" />
 
         <Button
+            android:id="@+id/signupBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="#0000"
             android:clickable="true"
             android:focusable="true"
             android:text="@string/sign_up"
             android:textColor="#FFD42D"
-            android:background="#0000"
             android:textSize="18dp" />
 
     </LinearLayout>

@@ -78,16 +78,14 @@ public class Onboarding1 extends AppCompatActivity {
     private void setupOnboardingItem() {
         List<OnboardingItem> onboardingItemList = new ArrayList<>();
         OnboardingItem itemPage1 = new OnboardingItem();
-        itemPage1.setHeader(R.string.slider_layout_header1);
-        itemPage1.setDescription(R.string.slider_layout_content1);
-
-        OnboardingItem itemPage2 = new OnboardingItem();
-        itemPage2.setHeader(R.string.slider_layout_header2);
-        itemPage2.setDescription(R.string.slider_layout_content2);
-
+        itemPage1.setHeader("Discover Your Style with Stylist IQ");
+        itemPage1.setDescription("Discover your unique style with our AI- powered recommendations.");
         onboardingItemList.add(itemPage1);
-        onboardingItemList.add(itemPage2);
+        OnboardingItem itemPage2 = new OnboardingItem();
+        itemPage2.setHeader("Perfect Outfits, Every Day");
+        itemPage2.setDescription("Say goodbye to wardrobe dilemmas. StylistIQ creates perfect outfits for every occasion.");
 
+        onboardingItemList.add(itemPage2);
 
         viewPageAdapter = new ViewPageAdapter(onboardingItemList, getApplicationContext());
     }

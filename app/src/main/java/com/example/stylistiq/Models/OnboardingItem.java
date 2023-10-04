@@ -2,22 +2,22 @@ package com.example.stylistiq.Models;
 
 public class OnboardingItem {
 
-    public static int header;
-    public static int description;
+    public static String header;
+    public static String description;
 
-    public static int getHeader() {
+    public static String getHeader() {
         return header;
     }
 
-    public static void setHeader(int header) {
+    public static void setHeader(String header) {
         OnboardingItem.header = header;
     }
 
-    public static int getDescription() {
+    public static String getDescription() {
         return description;
     }
 
-    public static void setDescription(int description) {
+    public static void setDescription(String description) {
         OnboardingItem.description = description;
     }
 

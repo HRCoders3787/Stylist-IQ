@@ -58,7 +58,6 @@ public class ViewPageAdapter extends RecyclerView.Adapter<ViewPageAdapter.Onboar
         }
 
         void setOnboardingData(OnboardingItem onboardingItem) {
-            Toast.makeText(context, "" + onboardingItem.getHeader(), Toast.LENGTH_SHORT).show();
             header_title.setText(onboardingItem.getHeader());
             content.setText(onboardingItem.getDescription());
         }
