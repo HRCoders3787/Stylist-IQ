@@ -4,12 +4,12 @@ plugins {
 
 android {
     namespace = "com.example.stylistiq"
-    compileSdk = 33
+    compileSdk = 34
 
     defaultConfig {
         applicationId = "com.example.stylistiq"
         minSdk = 24
-        targetSdk = 33
+        targetSdk = 34
         versionCode = 1
         versionName = "1.0"
 
@@ -42,4 +42,8 @@ dependencies {
 
 //    Lottie animation
     implementation("com.airbnb.android:lottie:3.7.0")
+
+//    Button bg blur
+//    implementation("com.ryanjeffreybrooks:injected-behavior:1.5")
+
 }

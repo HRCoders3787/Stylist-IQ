@@ -1,18 +1,34 @@
 <resources>
+
+<!--    App name-->
     <string name="app_name">Stylist IQ</string>
+
+
+<!--    Onbording content 1-->
     <string name="slider_layout_header1">Discover Your Style with Stylist IQ</string>
     <string name="slider_layout_content1">Discover your unique style with our AI- powered recommendations.</string>
     <string name="slider_layout_btn_text1">Next up!</string>
 
+
+    <!--    Onbording content 2-->
     <string name="slider_layout_header2">Perfect Outfits, Every Day</string>
     <string name="slider_layout_content2">Say goodbye to wardrobe dilemmas. StylistIQ creates perfect outfits for every occasion.</string>
     <string name="slider_layout_btn_text2">Get started!</string>
 
-    <string name="auth_header">Your style journey begins here</string>
-    <string name="auth_subContent">We can\'t wait to help you look your best. Let\'s dive into fashion with Stylist IQ.</string>
+
+<!--    Welcome screen strings-->
+    <string name="welcome_screen_heading">Your style journey begins here</string>
+    <string name="welcome_screen_subTxt">We can\'t wait to help you look your best. Let\'s dive into fashion with Stylist IQ.</string>
+
     <string name="login">Log In</string>
-    <string name="login_google">Log in using Google</string>
-    <string name="not_account">Don\'t have an account?</string>
+    <string name="or">OR</string>
+    <string name="login_google">Log In using Google</string>
+    <string name="no_account">Don\'t have an account?</string>
     <string name="sign_up">Sign up</string>
+
+
+<!--    Log in strings-->
+    <string name="asterisk">*</string>
+    <string name="phone">Phone number</string>
 
 </resources>
