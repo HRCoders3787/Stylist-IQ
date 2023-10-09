@@ -94,7 +94,7 @@
                 <!--                    android:textSize="18sp"-->
                 <!--                    android:textColor="@color/black"/>-->
 
-                <Button
+                <com.google.android.material.button.MaterialButton
                     android:id="@+id/loginBtn"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -105,6 +105,7 @@
                     android:gravity="center"
                     android:padding="4dp"
                     android:paddingStart="36dp"
+                    app:rippleColor="@color/subTxtColor"
                     android:paddingEnd="4dp"
                     android:text="@string/login"
                     android:textAlignment="center"
@@ -151,6 +152,7 @@
                     android:drawableEnd="@drawable/google_icon_with_bg"
                     android:fontFamily="@font/be_vietnam_pro_medium"
                     android:paddingStart="36dp"
+                    app:rippleColor="#40EDEDED"
                     android:paddingEnd="4dp"
                     android:text="@string/login_google"
                     android:textAllCaps="false"
@@ -188,7 +190,7 @@
             android:textColor="@color/subTxtColor"
             android:textSize="16sp" />
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/signupBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -198,6 +200,7 @@
             android:fontFamily="@font/raleway_medium"
             android:gravity="center"
             android:padding="12dp"
+            app:rippleColor="#260B0A0B"
             android:text="@string/sign_up"
             android:textColor="@color/yellow"
             android:textSize="16sp" />

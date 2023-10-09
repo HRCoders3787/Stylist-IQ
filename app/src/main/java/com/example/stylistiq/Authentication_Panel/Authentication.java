@@ -16,8 +16,7 @@ import com.google.android.material.button.MaterialButton;
 
 public class Authentication extends AppCompatActivity {
 
-    Button loginBtn, signupBtn;
-    MaterialButton googleLoginBtn;
+    MaterialButton loginBtn, googleLoginBtn, signupBtn;
 
     @SuppressLint("MissingInflatedId")
     @Override
