@@ -24,11 +24,13 @@
     <string name="or">OR</string>
     <string name="login_google">Log In using Google</string>
     <string name="no_account">Don\'t have an account?</string>
-    <string name="sign_up">Sign up</string>
+    <string name="sign_up"><u>Sign up</u></string>
 
 
 <!--    Log in strings-->
     <string name="asterisk">*</string>
     <string name="phone">Phone number</string>
+    <string name="pass">Password</string>
+    <string name="forgot_pass"><u>Forgot password?</u></string>
 
 </resources>

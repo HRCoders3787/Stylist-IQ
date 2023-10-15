@@ -2,3 +2,16 @@
 plugins {
     id("com.android.application") version "8.1.1" apply false
 }
+
+buildscript {
+    repositories {
+        google()
+        mavenCentral()
+        maven {
+            setUrl("https://jitpack.io")
+        }
+    }
+    dependencies {
+        classpath("com.android.tools.build:gradle:8.1.1")
+        }
+}

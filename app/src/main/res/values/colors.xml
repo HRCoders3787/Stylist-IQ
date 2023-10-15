@@ -8,6 +8,7 @@
 
 <!--    Custom app colors-->
     <color name="black">#0B0A0B</color>
+    <color name="light_white">#F4F2FF</color>
     <color name="yellow">#FFD42D</color>
     <color name="subTxtColor">#EDEDED</color>
     <color name="or_dash">#B6B6B6</color>

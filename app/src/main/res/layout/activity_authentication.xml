@@ -12,6 +12,7 @@
         android:id="@+id/view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:alpha=".75"
         android:background="@drawable/bg_doodle"
         android:backgroundTintMode="screen"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -38,7 +39,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_marginTop="60dp"
             android:orientation="vertical">
 
@@ -55,7 +56,7 @@
                     android:lineSpacingExtra="2sp"
                     android:text="@string/welcome_screen_heading"
                     android:textColor="#FFFFFF"
-                    android:textSize="36sp" />
+                    android:textSize="32sp" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -64,7 +65,7 @@
                     android:fontFamily="@font/raleway_medium"
                     android:text="@string/welcome_screen_subTxt"
                     android:textColor="#EDEDED"
-                    android:textSize="16sp" />
+                    android:textSize="15sp" />
 
             </LinearLayout>
 
@@ -72,7 +73,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="60dp"
+                android:layout_marginTop="72dp"
                 android:orientation="vertical">
 
                 <!--                <com.google.android.material.button.MaterialButton-->
@@ -102,43 +103,48 @@
                     android:backgroundTint="@color/white"
                     android:drawableEnd="@drawable/arrow_with_bg_icon"
                     android:fontFamily="@font/be_vietnam_pro_medium"
+                    android:fontFeatureSettings="pnum, lnum"
                     android:gravity="center"
+                    android:letterSpacing=".02"
                     android:padding="4dp"
                     android:paddingStart="36dp"
-                    app:rippleColor="@color/subTxtColor"
                     android:paddingEnd="4dp"
                     android:text="@string/login"
                     android:textAlignment="center"
                     android:textColor="@color/black"
-                    android:textSize="16sp"
+                    android:textSize="14sp"
                     app:cornerRadius="100dp" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="32dp"
-                    android:layout_marginBottom="32dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginBottom="20dp"
                     android:gravity="center"
                     android:orientation="horizontal">
 
                     <View
-                        android:layout_width="145dp"
-                        android:layout_height="1.25dp"
+                        android:layout_width="60dp"
+                        android:layout_height="1dp"
                         android:background="@color/or_dash" />
 
                     <TextView
                         android:layout_width="wrap_content"
-                        android:layout_height="20dp"
-                        android:layout_marginStart="20dp"
-                        android:layout_marginEnd="20dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginEnd="16dp"
                         android:fontFamily="@font/be_vietnam_pro_medium"
+                        android:fontFeatureSettings="pnum, lnum"
+                        android:gravity="center_horizontal|top"
+                        android:letterSpacing=".02"
                         android:text="@string/or"
                         android:textColor="@color/white"
-                        android:textSize="14sp" />
+                        android:textSize="12sp"
+                        android:translationY="-1.78sp" />
 
                     <View
-                        android:layout_width="145dp"
-                        android:layout_height="1.25dp"
+                        android:layout_width="60dp"
+                        android:layout_height="1dp"
                         android:background="@color/or_dash" />
 
                 </LinearLayout>
@@ -151,16 +157,17 @@
                     android:layout_gravity="center"
                     android:drawableEnd="@drawable/google_icon_with_bg"
                     android:fontFamily="@font/be_vietnam_pro_medium"
+                    android:fontFeatureSettings="pnum, lnum"
+                    android:letterSpacing=".02"
                     android:paddingStart="36dp"
-                    app:rippleColor="#40EDEDED"
                     android:paddingEnd="4dp"
                     android:text="@string/login_google"
                     android:textAllCaps="false"
-                    android:textColor="@color/white"
-                    android:textSize="16sp"
+                    android:textColor="@color/light_white"
+                    android:textSize="14sp"
                     app:backgroundTint="#80000000"
                     app:cornerRadius="100dp"
-                    app:strokeColor="@color/white"
+                    app:strokeColor="@color/light_white"
                     app:strokeWidth="1dp" />
 
             </LinearLayout>
@@ -184,11 +191,11 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="12dp"
+            android:layout_marginEnd="8dp"
             android:fontFamily="@font/raleway_medium"
             android:text="@string/no_account"
             android:textColor="@color/subTxtColor"
-            android:textSize="16sp" />
+            android:textSize="15sp" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/signupBtn"
@@ -199,11 +206,11 @@
             android:focusable="true"
             android:fontFamily="@font/raleway_medium"
             android:gravity="center"
-            android:padding="12dp"
-            app:rippleColor="#260B0A0B"
+            android:letterSpacing=".02"
+            android:padding="8dp"
             android:text="@string/sign_up"
             android:textColor="@color/yellow"
-            android:textSize="16sp" />
+            android:textSize="14sp" />
 
     </LinearLayout>
     <!--    -->
