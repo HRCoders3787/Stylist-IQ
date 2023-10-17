@@ -1,10 +1,10 @@
 <resources>
 
-<!--    App name-->
+    <!--    App name-->
     <string name="app_name">Stylist IQ</string>
 
 
-<!--    Onbording content 1-->
+    <!--    Onbording content 1-->
     <string name="slider_layout_header1">Discover Your Style with Stylist IQ</string>
     <string name="slider_layout_content1">Discover your unique style with our AI- powered recommendations.</string>
     <string name="slider_layout_btn_text1">Next up!</string>
@@ -16,7 +16,7 @@
     <string name="slider_layout_btn_text2">Get started!</string>
 
 
-<!--    Welcome screen strings-->
+    <!--    Welcome screen strings-->
     <string name="welcome_screen_heading">Your style journey begins here</string>
     <string name="welcome_screen_subTxt">We can\'t wait to help you look your best. Let\'s dive into fashion with Stylist IQ.</string>
 
@@ -27,10 +27,33 @@
     <string name="sign_up"><u>Sign up</u></string>
 
 
-<!--    Log in strings-->
+    <!--    Log in strings-->
     <string name="asterisk">*</string>
     <string name="phone">Phone number</string>
     <string name="pass">Password</string>
+    <string name="pass_hint">Your password</string>
+    <string name="rem_me">Remember me</string>
     <string name="forgot_pass"><u>Forgot password?</u></string>
+
+
+    <!--    Sign up strings-->
+    <string name="signup">Sign Up</string>
+    <string name="otp">OTP</string>
+    <string name="enter_otp">Enter OTP</string>
+    <string name="get_otp">Get OTP</string>
+    <string name="have_acc">Already have an account?</string>
+    <string name="log_in"><u>Log in</u></string>
+    <string name="not_rec_otp">Didn\'t received OTP?</string>
+    <string name="one">1</string>
+    <string name="slash">/</string>
+    <string name="two">2</string>
+
+    <string name="name">Full name</string>
+    <string name="name_hint">Your name</string>
+    <string name="email">Email id</string>
+    <string name="email_hint">Your email id</string>
+    <string name="gender">Gender</string>
+    <string name="male">Male</string>
+    <string name="female">Female</string>
 
 </resources>

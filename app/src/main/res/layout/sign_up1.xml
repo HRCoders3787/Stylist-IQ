@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/black"
-    tools:context=".Login.Login">
+    tools:context=".Signup.SignUp_1">
 
     <!--    Bg Doodle-->
     <View
@@ -32,7 +32,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <!--        For back btn-->
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="#BF0B0A0B">
@@ -42,10 +42,56 @@
                 android:id="@+id/backBtn"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
                 android:src="@drawable/back_icon"
                 app:backgroundTint="#00000000" />
 
-        </LinearLayout>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_alignParentEnd="true"
+                android:gravity="start"
+                android:layout_centerVertical="true">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/be_vietnam_pro_medium"
+                    android:text="@string/one"
+                    android:fontFeatureSettings="pnum, lnum"
+                    android:gravity="center_vertical"
+                    android:textColor="@color/yellow"
+                    android:textSize="28sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/be_vietnam_pro_medium"
+                    android:text="@string/slash"
+                    android:fontFeatureSettings="pnum, lnum"
+                    android:gravity="center_vertical"
+                    android:textColor="@color/white"
+                    android:textSize="15sp"
+                    android:layout_marginStart="2dp"
+                    android:layout_marginEnd="2dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/be_vietnam_pro_medium"
+                    android:text="@string/two"
+                    android:fontFeatureSettings="pnum, lnum"
+                    android:gravity="center_vertical"
+                    android:textColor="@color/white"
+                    android:textSize="15sp"
+                    android:layout_marginStart="2dp"
+                    android:layout_marginEnd="2dp"/>
+
+            </LinearLayout>
+
+        </RelativeLayout>
 
         <ScrollView
             android:layout_width="match_parent"
@@ -53,11 +99,6 @@
             android:layout_marginTop="20dp"
             android:fillViewport="true"
             android:scrollbars="none">
-
-            <!--            <LinearLayout-->
-            <!--                android:layout_width="match_parent"-->
-            <!--                android:layout_height="wrap_content"-->
-            <!--                android:orientation="vertical">-->
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -84,7 +125,7 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/be_vietnam_pro_medium"
                         android:lineSpacingExtra="2sp"
-                        android:text="@string/login"
+                        android:text="@string/signup"
                         android:textColor="#FFFFFF"
                         android:textSize="24sp" />
 
@@ -150,7 +191,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/raleway_semibold"
-                            android:text="@string/pass"
+                            android:text="@string/otp"
                             android:textColor="@color/white"
                             android:textSize="14sp" />
 
@@ -162,7 +203,7 @@
                             android:fontFamily="@font/raleway_medium"
                             android:fontFeatureSettings="pnum, lnum"
                             android:gravity="center_vertical"
-                            android:hint="@string/pass_hint"
+                            android:hint="@string/enter_otp"
                             android:inputType="textPassword"
                             android:padding="12dp"
                             android:textColor="@color/white"
@@ -172,43 +213,6 @@
                     </LinearLayout>
 
                 </LinearLayout>
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp">
-
-                    <CheckBox
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentStart="true"
-                        android:layout_centerHorizontal="true"
-                        android:text="@string/rem_me"
-                        android:textColor="@color/white"
-                        android:fontFamily="@font/raleway_medium"
-                        android:gravity="center"
-                        android:letterSpacing=".02"
-                        android:textSize="14sp"
-                        style="@style/Widget.Material3.CompoundButton.CheckBox"/>
-
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/forgotPassBtn"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="#0000"
-                        android:layout_alignParentEnd="true"
-                        android:layout_centerHorizontal="true"
-                        android:clickable="true"
-                        android:focusable="true"
-                        android:fontFamily="@font/raleway_medium"
-                        android:gravity="center"
-                        android:letterSpacing=".02"
-                        android:padding="8dp"
-                        android:text="@string/forgot_pass"
-                        android:textColor="@color/white"
-                        android:textSize="14sp" />
-
-                </RelativeLayout>
 
                 <!--            LL for btns-->
                 <LinearLayout
@@ -220,7 +224,7 @@
                     android:orientation="vertical">
 
                     <com.google.android.material.button.MaterialButton
-                        android:id="@+id/loginBtn"
+                        android:id="@+id/get_otp_btn"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
@@ -233,66 +237,51 @@
                         android:padding="4dp"
                         android:paddingStart="36dp"
                         android:paddingEnd="4dp"
-                        android:text="@string/login"
+                        android:text="@string/get_otp"
                         android:textAlignment="center"
                         android:textColor="@color/black"
                         android:textSize="14sp"
                         app:cornerRadius="100dp" />
 
+                    <!--                No acc LL-->
                     <LinearLayout
-                        android:layout_width="match_parent"
+                        android:id="@+id/otp_timer"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="14dp"
-                        android:layout_marginBottom="14dp"
-                        android:gravity="center"
-                        android:orientation="horizontal">
-
-                        <View
-                            android:layout_width="60dp"
-                            android:layout_height="1dp"
-                            android:background="@color/or_dash" />
+                        android:layout_gravity="center"
+                        android:layout_marginTop="20dp"
+                        android:gravity="bottom"
+                        android:orientation="horizontal"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent">
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="16dp"
-                            android:layout_marginEnd="16dp"
-                            android:fontFamily="@font/be_vietnam_pro_medium"
-                            android:fontFeatureSettings="pnum, lnum"
-                            android:gravity="center_horizontal|top"
-                            android:letterSpacing=".02"
-                            android:text="@string/or"
-                            android:textColor="@color/white"
-                            android:textSize="12sp"
-                            android:translationY="-1.78sp" />
+                            android:layout_marginEnd="8dp"
+                            android:fontFamily="@font/raleway_medium"
+                            android:text="@string/not_rec_otp"
+                            android:textColor="@color/subTxtColor"
+                            android:textSize="15sp" />
 
-                        <View
-                            android:layout_width="60dp"
-                            android:layout_height="1dp"
-                            android:background="@color/or_dash" />
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/resend_otp_btn"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="#0000"
+                            android:clickable="true"
+                            android:focusable="true"
+                            android:fontFamily="@font/raleway_medium"
+                            android:fontFeatureSettings="pnum, lnum"
+                            android:gravity="center"
+                            android:letterSpacing=".02"
+                            android:padding="8dp"
+                            android:text="00:40 sec"
+                            android:textColor="@color/yellow"
+                            android:textSize="14sp" />
 
                     </LinearLayout>
-
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/googleLoginBtn"
-                        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:drawableEnd="@drawable/google_icon_with_bg"
-                        android:fontFamily="@font/be_vietnam_pro_medium"
-                        android:fontFeatureSettings="pnum, lnum"
-                        android:letterSpacing=".02"
-                        android:paddingStart="36dp"
-                        android:paddingEnd="4dp"
-                        android:text="@string/login_google"
-                        android:textAllCaps="false"
-                        android:textColor="@color/light_white"
-                        android:textSize="14sp"
-                        app:backgroundTint="#80000000"
-                        app:cornerRadius="100dp"
-                        app:strokeColor="@color/light_white"
-                        app:strokeWidth="1dp" />
 
                 </LinearLayout>
 
@@ -314,7 +303,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="8dp"
                         android:fontFamily="@font/raleway_medium"
-                        android:text="@string/no_account"
+                        android:text="@string/have_acc"
                         android:textColor="@color/subTxtColor"
                         android:textSize="15sp" />
 
@@ -329,7 +318,7 @@
                         android:gravity="center"
                         android:letterSpacing=".02"
                         android:padding="8dp"
-                        android:text="@string/sign_up"
+                        android:text="@string/log_in"
                         android:textColor="@color/yellow"
                         android:textSize="14sp" />
 

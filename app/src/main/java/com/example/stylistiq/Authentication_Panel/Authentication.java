@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import com.example.stylistiq.Login.Login;
 import com.example.stylistiq.R;
+import com.example.stylistiq.Signup.SignUp_1;
 import com.google.android.material.button.MaterialButton;
 
 public class Authentication extends AppCompatActivity {
@@ -31,6 +32,11 @@ public class Authentication extends AppCompatActivity {
 
         loginBtn.setOnClickListener(v -> {
             Intent intent = new Intent(Authentication.this, Login.class);
+            startActivity(intent);
+        });
+
+        signupBtn.setOnClickListener(v -> {
+            Intent intent = new Intent(Authentication.this, SignUp_1.class);
             startActivity(intent);
         });
     }
