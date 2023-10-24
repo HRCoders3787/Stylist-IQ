@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Signup.SignUp_2"
-    android:background="@color/black">
+    android:background="@color/black"
+    tools:context=".Signup.SignUp_2">
 
     <!--    Bg Doodle-->
     <View
@@ -50,44 +50,44 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
                 android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
                 android:gravity="start"
-                android:layout_centerVertical="true">
+                android:orientation="horizontal">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/be_vietnam_pro_medium"
-                    android:text="@string/two"
                     android:fontFeatureSettings="pnum, lnum"
                     android:gravity="center_vertical"
+                    android:text="@string/two"
                     android:textColor="@color/yellow"
                     android:textSize="28sp" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="2dp"
+                    android:layout_marginEnd="2dp"
                     android:fontFamily="@font/be_vietnam_pro_medium"
-                    android:text="@string/slash"
                     android:fontFeatureSettings="pnum, lnum"
                     android:gravity="center_vertical"
+                    android:text="@string/slash"
                     android:textColor="@color/white"
-                    android:textSize="15sp"
-                    android:layout_marginStart="2dp"
-                    android:layout_marginEnd="2dp"/>
+                    android:textSize="15sp" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="2dp"
+                    android:layout_marginEnd="2dp"
                     android:fontFamily="@font/be_vietnam_pro_medium"
-                    android:text="@string/two"
                     android:fontFeatureSettings="pnum, lnum"
                     android:gravity="center_vertical"
+                    android:text="@string/two"
                     android:textColor="@color/white"
-                    android:textSize="15sp"
-                    android:layout_marginStart="2dp"
-                    android:layout_marginEnd="2dp"/>
+                    android:textSize="15sp" />
 
             </LinearLayout>
 
@@ -152,6 +152,7 @@
                             android:textSize="14sp" />
 
                         <EditText
+                            android:id="@+id/fullName"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="4dp"
@@ -160,7 +161,6 @@
                             android:fontFeatureSettings="pnum, lnum"
                             android:gravity="center_vertical"
                             android:hint="@string/name_hint"
-                            android:inputType="number"
                             android:padding="12dp"
                             android:textColor="@color/white"
                             android:textColorHint="#80FFFFFF"
@@ -171,8 +171,8 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:layout_marginTop="16dp">
+                        android:layout_marginTop="16dp"
+                        android:orientation="vertical">
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -183,6 +183,7 @@
                             android:textSize="14sp" />
 
                         <EditText
+                            android:id="@+id/email"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="4dp"
@@ -191,7 +192,6 @@
                             android:fontFeatureSettings="pnum, lnum"
                             android:gravity="center_vertical"
                             android:hint="@string/email_hint"
-                            android:inputType="number"
                             android:padding="12dp"
                             android:textColor="@color/white"
                             android:textColorHint="#80FFFFFF"
@@ -214,6 +214,7 @@
                             android:textSize="14sp" />
 
                         <EditText
+                            android:id="@+id/password"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="4dp"
@@ -245,43 +246,44 @@
                             android:textSize="14sp" />
 
                         <RadioGroup
+                            android:id="@+id/genderRadio"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="vertical"
-                            android:layout_marginTop="4dp">
+                            android:layout_marginTop="4dp"
+                            android:orientation="vertical">
 
                             <RadioButton
                                 android:id="@+id/male_rb"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:text="@string/male"
-                                app:drawableTint="#0000"
+                                android:background="@drawable/gender_bg_selector"
                                 android:button="@android:color/transparent"
+                                android:drawableEnd="@drawable/selected_icon"
                                 android:fontFamily="@font/raleway_medium"
                                 android:fontFeatureSettings="pnum, lnum"
                                 android:gravity="center_vertical"
                                 android:padding="12dp"
+                                android:text="@string/male"
                                 android:textColor="@drawable/gender_txt_selector"
-                                android:drawableEnd="@drawable/selected_icon"
-                                android:background="@drawable/gender_bg_selector"
-                                android:textSize="14sp" />
+                                android:textSize="14sp"
+                                app:drawableTint="#0000" />
 
                             <RadioButton
                                 android:id="@+id/female_rb"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:text="@string/female"
-                                app:drawableTint="#0000"
-                                android:drawableEnd="@drawable/selected_icon"
-                                android:button="@android:color/transparent"
                                 android:layout_marginTop="4dp"
                                 android:background="@drawable/gender_bg_selector"
+                                android:button="@android:color/transparent"
+                                android:drawableEnd="@drawable/selected_icon"
                                 android:fontFamily="@font/raleway_medium"
                                 android:fontFeatureSettings="pnum, lnum"
                                 android:gravity="center_vertical"
                                 android:padding="12dp"
+                                android:text="@string/female"
                                 android:textColor="@drawable/gender_txt_selector"
-                                android:textSize="14sp" />
+                                android:textSize="14sp"
+                                app:drawableTint="#0000" />
 
                         </RadioGroup>
 
@@ -299,7 +301,7 @@
                     android:orientation="vertical">
 
                     <com.google.android.material.button.MaterialButton
-                        android:id="@+id/loginBtn"
+                        android:id="@+id/signupBtn"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
@@ -312,7 +314,7 @@
                         android:padding="4dp"
                         android:paddingStart="36dp"
                         android:paddingEnd="4dp"
-                        android:text="@string/get_otp"
+                        android:text="@string/sign_up"
                         android:textAlignment="center"
                         android:textColor="@color/black"
                         android:textSize="14sp"
@@ -325,5 +327,4 @@
         </ScrollView>
 
     </LinearLayout>
-
 </androidx.constraintlayout.widget.ConstraintLayout>

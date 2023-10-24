@@ -165,6 +165,7 @@
                             android:textSize="14sp" />
 
                         <EditText
+                            android:id="@+id/phoneNo"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="4dp"
@@ -174,6 +175,7 @@
                             android:gravity="center_vertical"
                             android:hint="+91"
                             android:inputType="number"
+                            android:maxLength="10"
                             android:padding="12dp"
                             android:textColor="@color/white"
                             android:textColorHint="#80FFFFFF"
@@ -182,10 +184,12 @@
                     </LinearLayout>
 
                     <LinearLayout
+                        android:id="@+id/otpLayout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="16dp"
-                        android:orientation="vertical">
+                        android:orientation="vertical"
+                        android:visibility="invisible">
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -196,6 +200,7 @@
                             android:textSize="14sp" />
 
                         <EditText
+                            android:id="@+id/otpVal"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="4dp"
@@ -204,7 +209,9 @@
                             android:fontFeatureSettings="pnum, lnum"
                             android:gravity="center_vertical"
                             android:hint="@string/enter_otp"
-                            android:inputType="textPassword"
+
+                            android:inputType="number"
+                            android:maxLength="6"
                             android:padding="12dp"
                             android:textColor="@color/white"
                             android:textColorHint="#80FFFFFF"
@@ -308,7 +315,7 @@
                         android:textSize="15sp" />
 
                     <com.google.android.material.button.MaterialButton
-                        android:id="@+id/signupBtn"
+                        android:id="@+id/loginBtn"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:background="#0000"

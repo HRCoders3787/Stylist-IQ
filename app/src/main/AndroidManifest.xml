@@ -2,6 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -13,14 +16,22 @@
         android:theme="@style/Theme.StylistIQ"
         tools:targetApi="31">
         <activity
+            android:name=".DashBoard.DashBoard"
+            android:exported="false" />
+        <activity
             android:name=".Signup.SignUp_2"
             android:exported="false" />
         <activity
             android:name=".Signup.SignUp_1"
-            android:exported="false" />
+            android:exported="false">
+
+        </activity>
         <activity
             android:name=".Login.Login"
-            android:exported="false" />
+            android:exported="false">
+
+
+        </activity>
         <activity
             android:name=".Authentication_Panel.Authentication"
             android:exported="false" />
@@ -30,9 +41,9 @@
         <activity
             android:name=".Splash_Screen.MainActivity"
             android:exported="true">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

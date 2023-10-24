@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "197974115998",
+    "project_id": "stylistiq-48bab",
+    "storage_bucket": "stylistiq-48bab.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:197974115998:android:16875c3342964ee242dd8f",
+        "android_client_info": {
+          "package_name": "com.example.stylistiq"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "197974115998-sp3ntaur0pmj2ctvkhqkqq44fuci3rgf.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.stylistiq",
+            "certificate_hash": "b34a438e0be59ddcfe034fc531e1541d122fadce"
+          }
+        },
+        {
+          "client_id": "197974115998-shtcooaev2sb363t68k9sqt8s868pens.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD2oGPfQhL6k849OhOpa7DXqHz6Eh5Xtx8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "197974115998-shtcooaev2sb363t68k9sqt8s868pens.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

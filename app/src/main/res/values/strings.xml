@@ -37,6 +37,7 @@
 
 
     <!--    Sign up strings-->
+    <string name="phone_hint">Your phone number</string>
     <string name="signup">Sign Up</string>
     <string name="otp">OTP</string>
     <string name="enter_otp">Enter OTP</string>
@@ -47,6 +48,9 @@
     <string name="one">1</string>
     <string name="slash">/</string>
     <string name="two">2</string>
+    <string name="timer">00:40 sec</string>
+    <string name="next">Next</string>
+    <string name="verify">Verify OTP</string>
 
     <string name="name">Full name</string>
     <string name="name_hint">Your name</string>
@@ -56,4 +60,6 @@
     <string name="male">Male</string>
     <string name="female">Female</string>
 
+<!--    Google sgn in string-->
+    <string name="default_web_client_id"></string>
 </resources>
