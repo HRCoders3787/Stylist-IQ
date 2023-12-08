@@ -6,11 +6,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.stylistiq.DashBoard.DashBoard;
@@ -32,18 +34,22 @@ public class SignUp_2 extends AppCompatActivity {
     String phoneStr, nameStr, emailStr, passwordStr, genderStr;
     ImageButton backBtn;
     RadioButton male_rb, female_rb;
+    TextView inputTextView;
     MaterialButton signupBtn;
     Pattern emailPattern = Pattern.compile("^[A-Za-z0-9+_.-]+@(.+)$");
+    Pattern phonePattern = Pattern.compile("^[789]\\d{9}$");
     FirebaseFirestore db;
     LoadingAlert loadingAlert = new LoadingAlert(SignUp_2.this);
+    String prevIntentKey;
+    Intent prevIntent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.sign_up2);
 
-        Intent prevIntent = getIntent();
-        phoneStr = prevIntent.getStringExtra("phone");
+        prevIntent = getIntent();
+        prevIntentKey = prevIntent.getStringExtra("intentKey");
 
         initialiseViews();
         db = FirebaseFirestore.getInstance();
@@ -58,6 +64,10 @@ public class SignUp_2 extends AppCompatActivity {
         signupBtn.setOnClickListener(v -> {
             loadingAlert.startAlertDialog();
             if (inputValidate()) {
+                fullName.setError(null);
+                password.setError(null);
+                email.setError(null);
+
                 nameStr = fullName.getText().toString();
                 emailStr = email.getText().toString();
                 passwordStr = password.getText().toString();
@@ -89,10 +99,18 @@ public class SignUp_2 extends AppCompatActivity {
     private boolean inputValidate() {
         if (emptyValidate()) {
             String input_email = email.getText().toString();
-            if (!emailPattern.matcher(input_email).matches()) {
-                email.setError("Invalid email address");
+            if (prevIntentKey.equals("Signup1")) {
+                if (!emailPattern.matcher(input_email).matches()) {
+                    email.setError("Invalid email address");
+                }
             } else if (password.getText().length() < 8) {
                 password.setError("Length be greater or equal 8");
+            } else if (prevIntentKey.equals("GoogleSignup")) {
+                if (input_email.length() != 10) { //Validating length based
+                    email.setError("Invalid phone number");
+                } else if (!phonePattern.matcher(input_email).matches()) { //Validating based on pattern
+                    email.setError("Invalid Phone number");
+                }
             } else {
                 return true;
             }
@@ -123,5 +141,15 @@ public class SignUp_2 extends AppCompatActivity {
         male_rb = findViewById(R.id.male_rb);
         female_rb = findViewById(R.id.female_rb);
         backBtn = findViewById(R.id.backBtn);
+        inputTextView = findViewById(R.id.inputTextView);
+
+        if (prevIntentKey.equals("GoogleSignup")) {
+            emailStr = prevIntent.getStringExtra("email");
+            inputTextView.setText("Phone number");
+            email.setInputType(EditorInfo.TYPE_CLASS_NUMBER);
+            email.setHint(R.string.phone_hint);
+        } else {
+            phoneStr = prevIntent.getStringExtra("phone");
+        }
     }
 }

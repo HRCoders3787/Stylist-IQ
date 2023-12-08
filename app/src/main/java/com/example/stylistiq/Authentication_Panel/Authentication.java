@@ -14,9 +14,11 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.example.stylistiq.DashBoard.DashBoard;
 import com.example.stylistiq.Login.Login;
 import com.example.stylistiq.R;
 import com.example.stylistiq.Signup.SignUp_1;
+import com.example.stylistiq.Signup.SignUp_2;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -99,7 +101,10 @@ public class Authentication extends AppCompatActivity {
                         map.put("id", user.getUid());
                         map.put("name", user.getDisplayName());
                         map.put("profile", user.getPhotoUrl());
-
+                        Intent newIntent = new Intent(getApplicationContext(), SignUp_2.class);
+                        newIntent.putExtra("intentKey", "GoogleSignup");
+                        newIntent.putExtra("email", user.getEmail());
+                        startActivity(newIntent);
 
                     } else {
                         Toast.makeText(this, "failed to sign in", Toast.LENGTH_SHORT).show();

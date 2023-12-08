@@ -60,6 +60,25 @@
     <string name="male">Male</string>
     <string name="female">Female</string>
 
-<!--    Google sgn in string-->
+
+
+    <!--    Google sgn in string-->
     <string name="default_web_client_id"></string>
+    <!-- TODO: Remove or change this placeholder text -->
+<!--    home dashboard string values-->
+    <string name="weather_degree">37 °C</string>
+    <string name="swipe_down">(Swipe down to view outfits)</string>
+    <string name="hello_blank_fragment">blank frag,ent here</string>
+    <string name="weather_outfit">Weather Outfits</string>
+    <string name="your_closet">Your Closet</string>
+    <string name="items12">12 item(s)</string>
+    <string name="items_anal">Item(s) Color Analysis</string>
+    <string name="stats">Statistics</string>
+    <string name="black">Black(8)</string>
+    <string name="blue">Blue(4)</string>
+    <string name="red">Red(3)</string>
+    <string name="yellow">Yellow(1)</string>
+    
+<!--    Closet string values-->
+
 </resources>

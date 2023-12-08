@@ -103,9 +103,9 @@ public class SignUp_1 extends AppCompatActivity {
             }
         });
 
-//        backBtn.setOnClickListener(v -> {
-//            finish();
-//        });
+        backBtn.setOnClickListener(v -> {
+            finish();
+        });
 
         loginBtn.setOnClickListener(v -> {
             startActivity(new Intent(SignUp_1.this, Login.class));
@@ -136,7 +136,10 @@ public class SignUp_1 extends AppCompatActivity {
                     get_otp_btn.setText(R.string.next);
                     if (task.isSuccessful()) {
                         loadingAlert.closeAlertDialog();
-                        startActivity(new Intent(SignUp_1.this, SignUp_2.class).putExtra("phone", phoneNo.getText().toString()));
+                        Intent newIntent = new Intent(getApplicationContext(), SignUp_2.class);
+                        newIntent.putExtra("intentKey", "Signup1");
+                        newIntent.putExtra("phone", phoneNo.getText().toString());
+                        startActivity(newIntent);
                     } else {
                         loadingAlert.closeAlertDialog();
                         Toast.makeText(this, "Otp Doesn't match", Toast.LENGTH_SHORT).show();

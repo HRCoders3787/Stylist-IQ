@@ -1,41 +1,75 @@
 package com.example.stylistiq.DashBoard;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.navigation.NavController;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.example.stylistiq.DashBoard.ui.closet.Closet;
+import com.example.stylistiq.DashBoard.ui.home.Home;
+import com.example.stylistiq.DashBoard.ui.suggestion.Suggestion;
+import com.example.stylistiq.DashBoard.ui.weather.Weather;
 import com.example.stylistiq.R;
 import com.example.stylistiq.Session.SessionManager;
-
-import java.util.HashMap;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.navigation.NavigationBarView;
+import com.google.android.material.navigation.NavigationView;
 
 public class DashBoard extends AppCompatActivity {
 
-    TextView name, email, password, phone;
     SessionManager sessionManager;
+
+    BottomNavigationView bottomNavigationView;
+    TextView toolbarHeader;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.dash_board);
 
         initializeViews();
 
+        getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, new Home()).commit();
+        bottomNavigationView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
+            @SuppressLint("NonConstantResourceId")
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                if (item.getItemId() == R.id.home) {
+                    toolbarHeader.setVisibility(View.INVISIBLE);
+                    getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, new Home()).commit();
+                    return true;
+                } else if (item.getItemId() == R.id.suggestion) {
+                    toolbarHeader.setVisibility(View.VISIBLE);
+                    toolbarHeader.setText("Outfit Suggestion");
+                    getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, new Suggestion()).commit();
+                    return true;
+                } else if (item.getItemId() == R.id.weather) {
+                    toolbarHeader.setVisibility(View.INVISIBLE);
+                    getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, new Weather()).commit();
+                    return true;
+                } else if (item.getItemId() == R.id.closet) {
+                    toolbarHeader.setVisibility(View.VISIBLE);
+                    toolbarHeader.setText("Your Closet");
+                    getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, new Closet()).commit();
+                    return true;
+                }
+                return false;
+            }
+        });
+
+
     }
 
-    private void initializeViews() {
-        name = findViewById(R.id.name);
-        email = findViewById(R.id.email);
-        password = findViewById(R.id.password);
-        phone = findViewById(R.id.phone);
 
-        sessionManager = new SessionManager(DashBoard.this, SessionManager.SESSION_USERSESSION);
-        HashMap<String, String> userDetails = sessionManager.getUserDetailsFromSession();
-        name.setText(userDetails.get(SessionManager.KEY_FULLNAME));
-        email.setText(userDetails.get(SessionManager.KEY_EMAIL));
-        password.setText(userDetails.get(SessionManager.KEY_PASSWORD));
-        phone.setText(userDetails.get(SessionManager.KEY_PHONENUMBER));
+    private void initializeViews() {
+        bottomNavigationView = findViewById(R.id.bottomNavigationView);
+        toolbarHeader = findViewById(R.id.toolbarHeader);
     }
 }

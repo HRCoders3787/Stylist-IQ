@@ -99,7 +99,7 @@ public class Login extends AppCompatActivity {
 
         });
 
-        backBtn.setOnClickListener(v -> finish());
+//        backBtn.setOnClickListener(v -> finish());
 
         signupBtn.setOnClickListener(v -> {
             startActivity(new Intent(Login.this, SignUp_1.class));

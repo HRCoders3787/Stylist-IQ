@@ -26,6 +26,12 @@ android {
             )
         }
     }
+
+    buildFeatures{
+        viewBinding = true
+        mlModelBinding = true
+    }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
@@ -42,10 +48,24 @@ dependencies {
     implementation("com.google.firebase:firebase-auth:22.1.2")
     implementation("com.google.firebase:firebase-firestore:24.9.0")
     implementation("com.google.android.gms:play-services-auth:20.7.0")
+    implementation("androidx.navigation:navigation-runtime:2.7.5")
+
+    implementation("com.github.dhaval2404:imagepicker:2.1")
+    implementation("com.google.firebase:firebase-storage:20.3.0")
+    implementation("org.tensorflow:tensorflow-lite-support:0.1.0")
+    implementation("org.tensorflow:tensorflow-lite-metadata:0.1.0")
+    implementation("org.tensorflow:tensorflow-lite-gpu:2.3.0")
+    implementation("com.google.firebase:firebase-database:20.3.0")
+    implementation("com.facebook.shimmer:shimmer:0.5.0")
 
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
+
+    //Carousel dependency
+    implementation ("com.github.bumptech.glide:glide:4.16.0")
+
+    //Background removing
 
 
 //    Firebase dependencies
@@ -57,6 +77,7 @@ dependencies {
 
 //    Button bg blur
 //    implementation("com.ryanjeffreybrooks:injected-behavior:1.5")
+    implementation("com.facebook.shimmer:shimmer:0.5.0")
 
 //    Coutry code picker
     implementation("com.hbb20:ccp:2.5.0")
