@@ -67,21 +67,6 @@ public class GridAdapter extends BaseAdapter {
         ImageView imageView = convertView.findViewById(R.id.clothes);
         TextView clothClass = convertView.findViewById(R.id.clothClass);
         TextView clothDate = convertView.findViewById(R.id.clothDate);
-//        ShimmerFrameLayout shimmerFrameLayout;
-//        LinearLayout dataLayout;
-//
-//        shimmerFrameLayout = convertView.findViewById(R.id.shimmer_view);
-//        dataLayout = convertView.findViewById(R.id.data_view);
-//
-//        dataLayout.setVisibility(View.INVISIBLE);
-//        shimmerFrameLayout.startShimmer();
-//
-//        Handler handler = new Handler();
-//        handler.postDelayed(() -> {
-//            dataLayout.setVisibility(View.VISIBLE);
-//            shimmerFrameLayout.startShimmer();
-//            shimmerFrameLayout.setVisibility(View.INVISIBLE);
-//        }, 5000);
 
         Glide.with(context).load(clothData.get(position)).into(imageView);
         clothClass.setText(clothClassList.get(position));

@@ -20,26 +20,7 @@
             android:layout_height="match_parent"
             android:scaleType="centerCrop"
             android:src="@drawable/add_clothes1" />
-        <!--        <com.facebook.shimmer.ShimmerFrameLayout-->
-        <!--            android:id="@+id/shimmer_view"-->
-        <!--            android:layout_width="match_parent"-->
-        <!--            android:layout_height="match_parent"-->
-        <!--            android:gravity="center"-->
-        <!--            android:orientation="vertical">-->
 
-        <!--            <include layout="@layout/my_itemplaceholder" />-->
-
-        <!--        </com.facebook.shimmer.ShimmerFrameLayout>-->
-
-        <!--        <LinearLayout-->
-        <!--            android:id="@+id/data_view"-->
-        <!--            android:layout_width="match_parent"-->
-        <!--            android:layout_height="match_parent"-->
-        <!--            android:gravity="center"-->
-        <!--            android:orientation="vertical">-->
-
-        <!--            <include layout="@layout/my_item" />-->
-        <!--        </LinearLayout>-->
 
     </androidx.cardview.widget.CardView>
 
