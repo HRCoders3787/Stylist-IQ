@@ -27,7 +27,7 @@ android {
         }
     }
 
-    buildFeatures{
+    buildFeatures {
         viewBinding = true
         mlModelBinding = true
     }
@@ -41,31 +41,43 @@ android {
 
 dependencies {
 
-    implementation("androidx.appcompat:appcompat:1.6.1")
+//    implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("com.google.android.material:material:1.10.0")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
     implementation("com.hbb20:ccp:2.5.0")
     implementation("com.google.firebase:firebase-auth:22.1.2")
+
+    //Firebase fireStore dependencies
     implementation("com.google.firebase:firebase-firestore:24.9.0")
     implementation("com.google.android.gms:play-services-auth:20.7.0")
     implementation("androidx.navigation:navigation-runtime:2.7.5")
 
+    //Image picker dependencies
     implementation("com.github.dhaval2404:imagepicker:2.1")
+    //Firebase Storage dependencies
     implementation("com.google.firebase:firebase-storage:20.3.0")
+
+    //Tensor Flow lite dependencies
     implementation("org.tensorflow:tensorflow-lite-support:0.1.0")
     implementation("org.tensorflow:tensorflow-lite-metadata:0.1.0")
     implementation("org.tensorflow:tensorflow-lite-gpu:2.3.0")
+
+    //Firebase realtime database dependencies
     implementation("com.google.firebase:firebase-database:20.3.0")
+
+    //Loading dependencies
     implementation("com.facebook.shimmer:shimmer:0.5.0")
+
+    //noinspection GradleCompatible,GradleCompatible
+    implementation("com.android.support:palette-v7:27.1.1")
+    implementation("androidx.databinding:viewbinding:8.1.2")
 
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
 
-    //Carousel dependency
-    implementation ("com.github.bumptech.glide:glide:4.16.0")
-
-    //Background removing
+    //Url to imageView set dependencies
+    implementation("com.github.bumptech.glide:glide:4.16.0")
 
 
 //    Firebase dependencies

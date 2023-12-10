@@ -2,6 +2,7 @@ package com.example.stylistiq.DashBoard.ui.closet;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -9,7 +10,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-
+import androidx.palette.graphics.Palette;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,16 +24,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.stylistiq.Adapters.GridAdapter.GridAdapter;
-import com.example.stylistiq.Dialogs.LoadingAlert;
+
 import com.example.stylistiq.ImageUtils;
-import com.example.stylistiq.Login.Login;
-import com.example.stylistiq.Models.ClosetModel;
 import com.example.stylistiq.Models.ClothesModel;
 import com.example.stylistiq.R;
 import com.example.stylistiq.Session.SessionManager;
 import com.example.stylistiq.databinding.ActivityMainBinding;
-
-
 import com.example.stylistiq.ml.ModelUnquant;
 import com.github.dhaval2404.imagepicker.ImagePicker;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -40,6 +37,7 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -55,10 +53,11 @@ import org.tensorflow.lite.support.tensorbuffer.TensorBuffer;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.LinkedHashSet;
-import java.util.Map;
+import java.util.List;
 import java.util.Random;
 
 /**
@@ -104,7 +103,6 @@ public class Closet extends Fragment {
     GridAdapter gridAdapter;
     public static ArrayList<String> clothData;
 
-    //LoadingAlert loadingAlert = new LoadingAlert(getActivity());
 
     public Closet() {
         // Required empty public constructor
@@ -270,7 +268,8 @@ public class Closet extends Fragment {
                         storageReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                             @Override
                             public void onSuccess(Uri uri) {
-                                insertRealtimeDatabase(uri.toString(), clothID, imageClass);
+                                getClothColour(uri.toString(), clothID, imageClass);
+
                             }
                         });
                     }
@@ -305,12 +304,9 @@ public class Closet extends Fragment {
     }
 
     //FUNCTION TO INSERT VALUES TO REALTIME DATABASE
-    public void insertRealtimeDatabase(String imageUrl, String clothID, String imageClass) {
-        //String _fullName = userDetails.get(SessionManager.KEY_PHONENUMBER);
+    public void insertRealtimeDatabase(String imageUrl, String clothID, String imageClass, int clothColour) {
 
-        //ClosetModel closetModel = new ClosetModel(_fullName, _phone);
-        ClothesModel clothesModel = new ClothesModel(clothID, imageUrl);
-
+        ClothesModel clothesModel = new ClothesModel(clothID, imageUrl, clothColour);
         reference.child("Closet").child(_phone)
                 .child("Category").child(imageClass)
                 .child(clothID)
@@ -319,7 +315,7 @@ public class Closet extends Fragment {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         if (task.isSuccessful()) {
-                            Toast.makeText(getContext(), "Successfully realtime updated", Toast.LENGTH_SHORT).show();
+//                            Toast.makeText(getContext(), "Successfully realtime updated", Toast.LENGTH_SHORT).show();
                         } else {
                             Toast.makeText(getContext(), "Not Successfully realtime updated", Toast.LENGTH_SHORT).show();
                         }
@@ -328,13 +324,51 @@ public class Closet extends Fragment {
     }
 
 
+    //FUNCTION TO GET COLOUR OF IMAGE
+    public void getClothColour(String imageUrl, String clothID, String imageClass) {
+        Bitmap bitmap = ((BitmapDrawable) trialImage.getDrawable()).getBitmap();
+        if (bitmap != null) {
+            Palette.from(bitmap).generate(new Palette.PaletteAsyncListener() {
+                @Override
+                public void onGenerated(Palette palette) {
+                    int secondDominantColor;
+                    // Access the dominant color (or other colors) from the palette
+                    Palette.Swatch secondDominantSwatch = getSecondDominantSwatch(palette);
+                    secondDominantColor = secondDominantSwatch != null ? secondDominantSwatch.getRgb() : 0;
+
+                    insertRealtimeDatabase(imageUrl, clothID, imageClass, secondDominantColor);
+                }
+            });
+        } else {
+            Toast.makeText(getContext(), "bitmap empty", Toast.LENGTH_SHORT).show();
+        }
+
+    }
+
+
+    private Palette.Swatch getSecondDominantSwatch(Palette palette) {
+        // Get all the swatches from the palette
+        List<Palette.Swatch> swatches = new ArrayList<>(palette.getSwatches());
+
+        // Sort the swatches by population in descending order
+        Collections.sort(swatches, new Comparator<Palette.Swatch>() {
+            @Override
+            public int compare(Palette.Swatch swatch1, Palette.Swatch swatch2) {
+                return swatch2.getPopulation() - swatch1.getPopulation();
+            }
+        });
+
+        // Return the second swatch if available
+        return swatches.size() > 1 ? swatches.get(1) : null;
+    }
+
     //FUNCTION TO INITIALISE VIEWS
     public void initialiseViews(View view) {
         category = view.findViewById(R.id.category);
         gridView = view.findViewById(R.id.gridView);
         addImageBtn = view.findViewById(R.id.addImageBtn);
         notFound = view.findViewById(R.id.notFound);
-//        trialImage = view.findViewById(R.id.trialImage);
+        trialImage = view.findViewById(R.id.trialImage);
 //        trialText = view.findViewById(R.id.trialText);
         //loadingAlert.startAlertDialog();
 
@@ -358,11 +392,10 @@ public class Closet extends Fragment {
 
         clothData = new ArrayList<>();
 
-//        Toast.makeText(getContext(), "from activity : " + clothData.size(), Toast.LENGTH_SHORT).show();
         gridAdapter = new GridAdapter(getContext(), clothData);
         gridView.setAdapter(gridAdapter);
 
-        dataReferenceCall("TShirt");
+        getAllClothesImages();
 
 //        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 //            @Override
@@ -372,39 +405,72 @@ public class Closet extends Fragment {
 //        });
     }
 
+    //FUNCTION TO GET THE CLOSET IMAGES FROM DATABASE
     public void dataReferenceCall(String imageClass) {
 //        loadingAlert.startAlertDialog();
+        if (imageClass.equals("All")) {
+            getAllClothesImages();
+        } else {
+
+            reference.child("Closet").child(_phone).child("Category")
+                    .child(imageClass)
+                    .addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            if (snapshot.exists()) {
+                                gridView.setVisibility(View.VISIBLE);
+                                notFound.setVisibility(View.INVISIBLE);
+                                for (DataSnapshot closetSnapshot : snapshot.getChildren()) {
+                                    String _clotheImageUrl = closetSnapshot.child("clotheImageUrl").getValue(String.class);
+                                    clothData.add(_clotheImageUrl);
+                                }
+                                LinkedHashSet<String> linkedHashSet = new LinkedHashSet<>(clothData);
+                                clothData.clear();
+                                clothData.addAll(linkedHashSet);
+                                gridAdapter.notifyDataSetChanged();
+//                            loadingAlert.closeAlertDialog();
+
+                            } else {
+//                            loadingAlert.closeAlertDialog();
+                                gridView.setVisibility(View.INVISIBLE);
+                                clothData.clear();
+                                notFound.setVisibility(View.VISIBLE);
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+                            Toast.makeText(getContext(), error.getMessage().toString(), Toast.LENGTH_SHORT).show();
+                        }
+
+                    });
+        }
+    }
+
+    public void getAllClothesImages() {
+//        clothData.clear();
         reference.child("Closet").child(_phone).child("Category")
-                .child(imageClass)
                 .addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        if (snapshot.exists()) {
-                            gridView.setVisibility(View.VISIBLE);
-                            notFound.setVisibility(View.INVISIBLE);
-                            for (DataSnapshot closetSnapshot : snapshot.getChildren()) {
-                                String _clotheImageUrl = closetSnapshot.child("clotheImageUrl").getValue(String.class);
-                                clothData.add(_clotheImageUrl);
+                        gridView.setVisibility(View.VISIBLE);
+                        notFound.setVisibility(View.INVISIBLE);
+                        for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                            for (DataSnapshot innerSnapShot : dataSnapshot.getChildren()) {
+//                                System.out.println("DATA VALUE : " + innerSnapShot.child("clotheImageUrl").getValue(String.class));
+                                clothData.add(innerSnapShot.child("clotheImageUrl").getValue(String.class));
                             }
-                            LinkedHashSet<String> linkedHashSet = new LinkedHashSet<>(clothData);
-                            clothData.clear();
-                            clothData.addAll(linkedHashSet);
-                            gridAdapter.notifyDataSetChanged();
-//                            loadingAlert.closeAlertDialog();
-
-                        } else {
-//                            loadingAlert.closeAlertDialog();
-                            gridView.setVisibility(View.INVISIBLE);
-                            clothData.clear();
-                            notFound.setVisibility(View.VISIBLE);
                         }
+                        LinkedHashSet<String> linkedHashSet = new LinkedHashSet<>(clothData);
+                        clothData.clear();
+                        clothData.addAll(linkedHashSet);
+                        gridAdapter.notifyDataSetChanged();
                     }
 
                     @Override
                     public void onCancelled(@NonNull DatabaseError error) {
-                        Toast.makeText(getContext(), error.getMessage().toString(), Toast.LENGTH_SHORT).show();
+                        clothData.clear();
                     }
-
                 });
     }
 

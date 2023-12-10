@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "197974115998",
+    "firebase_url": "https://stylistiq-48bab-default-rtdb.firebaseio.com",
     "project_id": "stylistiq-48bab",
     "storage_bucket": "stylistiq-48bab.appspot.com"
   },
@@ -13,6 +14,14 @@
         }
       },
       "oauth_client": [
+        {
+          "client_id": "197974115998-410bl7d0uu1v1srn5n5vluvfajpf7rtm.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.stylistiq",
+            "certificate_hash": "98912a9c016b94a41cf402f041d792c186b1eb71"
+          }
+        },
         {
           "client_id": "197974115998-sp3ntaur0pmj2ctvkhqkqq44fuci3rgf.apps.googleusercontent.com",
           "client_type": 1,

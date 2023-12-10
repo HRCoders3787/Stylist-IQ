@@ -43,4 +43,24 @@
 
     </androidx.cardview.widget.CardView>
 
+    <TextView
+        android:id="@+id/clothClass"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:fontFamily="@font/work_sans_semibold"
+        android:text="Cloth-type"
+        android:textSize="16sp"
+        android:layout_marginTop="12dp"/>
+
+    <TextView
+        android:id="@+id/clothDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="start"
+        android:fontFamily="@font/work_sans"
+        android:text="Cloth date"
+        android:textSize="15sp"
+        android:layout_marginTop="2dp"
+        android:textColor="#80000000"/>
 </LinearLayout>

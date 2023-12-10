@@ -5,6 +5,16 @@ public class ClothesModel {
     String clothID;
     String clotheImageUrl;
 
+    int clothColour;
+
+    public int getClothColour() {
+        return clothColour;
+    }
+
+    public void setClothColour(int clothColour) {
+        this.clothColour = clothColour;
+    }
+
     public String getShirtID() {
         return clothID;
     }
@@ -21,8 +31,9 @@ public class ClothesModel {
         this.clotheImageUrl = clotheImageUrl;
     }
 
-    public ClothesModel(String shirtID, String clotheImageUrl) {
+    public ClothesModel(String shirtID, String clotheImageUrl, int clothColour) {
         this.clothID = shirtID;
         this.clotheImageUrl = clotheImageUrl;
+        this.clothColour = clothColour;
     }
 }
