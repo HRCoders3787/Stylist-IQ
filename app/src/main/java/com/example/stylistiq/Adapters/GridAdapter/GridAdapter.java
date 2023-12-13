@@ -27,11 +27,12 @@ public class GridAdapter extends BaseAdapter {
 
     Context context;
     ArrayList<String> clothData;
-    ArrayList<String> clothClassList = new ArrayList<>(Arrays.asList("Shirt", "T-Shirt", "Jeans", "Shirt", "trouser"));
+    ArrayList<String> clothClassList = new ArrayList<>(Arrays.asList("Shirt", "T-Shirt", "Jeans", "Shirt", "trouser", "T-Shirt"));
     ArrayList<String> clothDateList = new ArrayList<>(Arrays.asList(
             "July 2" + "," + " 2023",
             "Nov 3" + "," + " 2023",
             "June 2" + "," + " 2023",
+            "Aug 4" + "," + " 2023",
             "Aug 4" + "," + " 2023",
             "Feb 12" + "," + " 2023"));
     LayoutInflater inflater;

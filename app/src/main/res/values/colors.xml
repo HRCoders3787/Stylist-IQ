@@ -4,11 +4,14 @@
     <color name="white">#FFFFFFFF</color>
     <color name="btnEnd">#F4F2FF</color>
     <color name="textColor">#383A46</color>
+    <color name="app_bg">#F5F5F7</color>
     <color name="imgColor">#DEDEDE</color>
 
 <!--    Custom app colors-->
     <color name="black">#0B0A0B</color>
     <color name="light_white">#F4F2FF</color>
+    <color name="dop_down_bg">#F9F9F9</color>
+    <color name="img_bg">#F3F3F3</color>
     <color name="yellow">#FFD42D</color>
     <color name="subTxtColor">#EDEDED</color>
     <color name="or_dash">#B6B6B6</color>

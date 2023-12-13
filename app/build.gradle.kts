@@ -71,6 +71,7 @@ dependencies {
     //noinspection GradleCompatible,GradleCompatible
     implementation("com.android.support:palette-v7:27.1.1")
     implementation("androidx.databinding:viewbinding:8.1.2")
+    implementation("androidx.palette:palette:1.0.0")
 
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")

@@ -1,27 +1,19 @@
 package com.example.stylistiq.DashBoard.ui.home;
 
-import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-
-import androidx.cardview.widget.CardView;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 import android.widget.ViewFlipper;
 
-import com.example.stylistiq.Adapters.SliderAdapter.SliderAdapter;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+
 import com.example.stylistiq.DashBoard.ui.closet.Closet;
 import com.example.stylistiq.R;
-import com.google.android.material.slider.Slider;
+import com.google.android.material.button.MaterialButton;
 
 import java.util.ArrayList;
 
@@ -38,7 +30,8 @@ public class Home extends Fragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
-    CardView cardView2;
+    //    CardView cardView2;
+    MaterialButton see_all_btn;
     ViewFlipper imageSlider;
     ArrayList<String> arrayList = new ArrayList<>();
 
@@ -50,15 +43,6 @@ public class Home extends Fragment {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment Home.
-     */
-    // TODO: Rename and change types and number of parameters
     public static Home newInstance(String param1, String param2) {
         Home fragment = new Home();
         Bundle args = new Bundle();
@@ -84,16 +68,17 @@ public class Home extends Fragment {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
         initialiseViews(view);
 
-        cardView2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Closet closetFragment = new Closet();
-                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.replace(R.id.frame_layout, closetFragment);
-                fragmentTransaction.addToBackStack(null);
-                fragmentTransaction.commit();
-            }
+//        Hooks
+        see_all_btn = view.findViewById(R.id.see_all_btn);
+        imageSlider = view.findViewById(R.id.imageSlider);
+
+        see_all_btn.setOnClickListener(v -> {
+            Closet closetFragment = new Closet();
+            FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.replace(R.id.frame_layout, closetFragment);
+            fragmentTransaction.addToBackStack(null);
+            fragmentTransaction.commit();
         });
 
         for (int i = 0; i < arrayList.size(); i++) {
@@ -117,8 +102,7 @@ public class Home extends Fragment {
     }
 
     public void initialiseViews(View view) {
-        cardView2 = view.findViewById(R.id.cardView2);
-        imageSlider = view.findViewById(R.id.imageSlider);
+//        cardView2 = view.findViewById(R.id.cardView2);
         arrayList.add("37 °C");
         arrayList.add("28 °C");
 
