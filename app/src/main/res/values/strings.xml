@@ -69,13 +69,20 @@
     <string name="weather_degree">37 °C</string>
     <string name="swipe_down">(Swipe down to view outfits)</string>
     <string name="hello_blank_fragment">blank frag,ent here</string>
-    <string name="weather_outfit">Weather Outfits</string>
+    <string name="weather">Weather condition</string>
+    <string name="weather_outfit"><u>Weather Outfits</u></string>
     <string name="your_closet">Your Closet</string>
     <string name="items12">12 item(s)</string>
     <string name="item_col_analysis">Item(s) Color Analysis</string>
     <string name="stats">Statistics</string>
     <string name="see_all"><u>See all</u></string>
+    <string name="outfit_suggest">Outfit suggestions</string>
 
 <!--    Closet string values-->
+
+<!--    Weather fragment strings-->
+    <string name="humid">Humidity:</string>
+    <string name="cloud">Cloudy:</string>
+    <string name="weather_suggest">Weather based suggestions</string>
 
 </resources>

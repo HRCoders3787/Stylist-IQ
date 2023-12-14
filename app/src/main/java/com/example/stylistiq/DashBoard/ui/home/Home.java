@@ -1,5 +1,6 @@
 package com.example.stylistiq.DashBoard.ui.home;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +13,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.example.stylistiq.DashBoard.ui.closet.Closet;
+import com.example.stylistiq.DashBoard.ui.weather.Weather;
 import com.example.stylistiq.R;
 import com.google.android.material.button.MaterialButton;
 
@@ -31,8 +33,8 @@ public class Home extends Fragment {
     private static final String ARG_PARAM2 = "param2";
 
     //    CardView cardView2;
-    MaterialButton see_all_btn;
-    ViewFlipper imageSlider;
+    MaterialButton see_all_btn, weather_btn;
+//    ViewFlipper imageSlider;
     ArrayList<String> arrayList = new ArrayList<>();
 
     // TODO: Rename and change types of parameters
@@ -70,7 +72,7 @@ public class Home extends Fragment {
 
 //        Hooks
         see_all_btn = view.findViewById(R.id.see_all_btn);
-        imageSlider = view.findViewById(R.id.imageSlider);
+        weather_btn = view.findViewById(R.id.weather_btn);
 
         see_all_btn.setOnClickListener(v -> {
             Closet closetFragment = new Closet();
@@ -81,25 +83,25 @@ public class Home extends Fragment {
             fragmentTransaction.commit();
         });
 
-        for (int i = 0; i < arrayList.size(); i++) {
-            showImage(arrayList.get(i));
-        }
+//        for (int i = 0; i < arrayList.size(); i++) {
+//            showImage(arrayList.get(i));
+//        }
 
         return view;
     }
 
-    public void showImage(String text) {
-
-        View view = LayoutInflater.from(getContext()).inflate(R.layout.slider_items, null);
-        TextView tempText = view.findViewById(R.id.tempText);
-        tempText.setText(text);
-        imageSlider.addView(view);
-        imageSlider.setFlipInterval(2000);
-        imageSlider.setAutoStart(true);
-        imageSlider.setInAnimation(getContext(), android.R.anim.slide_in_left);
-        imageSlider.setOutAnimation(getContext(), android.R.anim.slide_out_right);
-
-    }
+//    public void showImage(String text) {
+//
+//        View view = LayoutInflater.from(getContext()).inflate(R.layout.slider_items, null);
+//        TextView tempText = view.findViewById(R.id.tempText);
+//        tempText.setText(text);
+//        imageSlider.addView(view);
+//        imageSlider.setFlipInterval(2000);
+//        imageSlider.setAutoStart(true);
+//        imageSlider.setInAnimation(getContext(), android.R.anim.slide_in_left);
+//        imageSlider.setOutAnimation(getContext(), android.R.anim.slide_out_right);
+//
+//    }
 
     public void initialiseViews(View view) {
 //        cardView2 = view.findViewById(R.id.cardView2);
