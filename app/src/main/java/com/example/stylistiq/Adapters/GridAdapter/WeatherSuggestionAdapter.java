@@ -1,48 +1,35 @@
 package com.example.stylistiq.Adapters.GridAdapter;
 
 import android.content.Context;
-import android.media.Image;
-import android.net.Uri;
-import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.example.stylistiq.Models.ClothesModel;
 import com.example.stylistiq.R;
-import com.facebook.shimmer.ShimmerFrameLayout;
-
-import org.checkerframework.checker.units.qual.A;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
-public class GridAdapter extends BaseAdapter {
+public class WeatherSuggestionAdapter extends BaseAdapter {
 
     Context context;
-    ArrayList<String> clothData;
+    ArrayList<String> clothUrls;
     ArrayList<String> clothClassList;
-    ArrayList<String> clothDateList;
     LayoutInflater inflater;
 
-    public GridAdapter(Context context, ArrayList<String> clothData, ArrayList<String> clothClassList,
-                       ArrayList<String> clothDateList) {
+    public WeatherSuggestionAdapter(Context context, ArrayList<String> clothUrls, ArrayList<String> clothClassList) {
         this.context = context;
-        this.clothData = clothData;
+        this.clothUrls = clothUrls;
         this.clothClassList = clothClassList;
-        this.clothDateList = clothDateList;
     }
+
 
     @Override
     public int getCount() {
-
-        return clothData.size();
+        return 0;
     }
 
     @Override
@@ -57,7 +44,7 @@ public class GridAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        if (inflater == null)
+        if (convertView == null)
             inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
         if (convertView == null) {
@@ -67,10 +54,8 @@ public class GridAdapter extends BaseAdapter {
         TextView clothClass = convertView.findViewById(R.id.clothClass);
         TextView clothDate = convertView.findViewById(R.id.clothDate);
 
-        Glide.with(context).load(clothData.get(position)).into(imageView);
+        Glide.with(context).load(clothUrls.get(position)).into(imageView);
         clothClass.setText(clothClassList.get(position));
-        clothDate.setText(clothDateList.get(position));
-
         return convertView;
     }
 }

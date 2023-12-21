@@ -46,12 +46,6 @@ public class DashBoard extends AppCompatActivity {
                     getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, new Home()).commit();
                     return true;
                 }
-//                else if (item.getItemId() == R.id.suggestion) {
-//                    toolbarHeader.setVisibility(View.VISIBLE);
-//                    toolbarHeader.setText("Outfit Suggestion");
-//                    getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, new Suggestion()).commit();
-//                    return true;
-//                }
                 else if (item.getItemId() == R.id.weather) {
                     toolbarHeader.setVisibility(View.INVISIBLE);
                     getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, new Weather()).commit();

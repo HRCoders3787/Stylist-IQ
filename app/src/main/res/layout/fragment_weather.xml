@@ -47,11 +47,12 @@
                             android:src="@drawable/location_icon" />
 
                         <TextView
+                            android:id="@+id/address"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/be_vietnam_pro_medium"
                             android:gravity="center_vertical"
-                            android:text="New Panvel, MH"
+
                             android:textColor="@color/textColor"
                             android:textSize="18sp" />
 
@@ -65,12 +66,13 @@
                         android:orientation="horizontal">
 
                         <TextView
+                            android:id="@+id/tempTxt"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:fontFamily="@font/be_vietnam_pro_medium"
-                            android:gravity="center_vertical"
-                            android:text="@string/weather_degree"
                             android:layout_weight="1"
+                            android:fontFamily="@font/be_vietnam_pro_medium"
+
+                            android:gravity="center_vertical"
                             android:textColor="@color/textColor"
                             android:textSize="40sp" />
 
@@ -82,29 +84,29 @@
                             android:orientation="vertical">
 
                             <TextView
+                                android:id="@+id/humidity"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/raleway_medium"
-                                android:text="@string/humid"
                                 android:textColor="@color/textColor"
                                 android:textSize="16sp" />
 
                             <TextView
+                                android:id="@+id/cloud"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="8dp"
                                 android:fontFamily="@font/raleway_medium"
-                                android:text="@string/cloud"
                                 android:textColor="@color/textColor"
                                 android:textSize="16sp" />
 
                         </LinearLayout>
 
-<!--                        <ImageView-->
-<!--                            android:layout_width="wrap_content"-->
-<!--                            android:layout_height="wrap_content"-->
-<!--                            android:src="@drawable/weather_yellow_icon"-->
-<!--                            app:tint="@color/weather_col" />-->
+                        <!--                        <ImageView-->
+                        <!--                            android:layout_width="wrap_content"-->
+                        <!--                            android:layout_height="wrap_content"-->
+                        <!--                            android:src="@drawable/weather_yellow_icon"-->
+                        <!--                            app:tint="@color/weather_col" />-->
 
                     </LinearLayout>
 

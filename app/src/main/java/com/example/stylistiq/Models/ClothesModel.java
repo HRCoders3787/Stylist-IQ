@@ -4,8 +4,25 @@ public class ClothesModel {
 
     String clothID;
     String clotheImageUrl;
-
     int clothColour;
+    String ClothType;
+    String uploadDate;
+
+    public String getClothType() {
+        return ClothType;
+    }
+
+    public void setClothType(String clothType) {
+        ClothType = clothType;
+    }
+
+    public String getUploadDate() {
+        return uploadDate;
+    }
+
+    public void setUploadDate(String uploadDate) {
+        this.uploadDate = uploadDate;
+    }
 
     public int getClothColour() {
         return clothColour;
@@ -15,12 +32,12 @@ public class ClothesModel {
         this.clothColour = clothColour;
     }
 
-    public String getShirtID() {
+    public String getClothID() {
         return clothID;
     }
 
-    public void setShirtID(String shirtID) {
-        this.clothID = shirtID;
+    public void setClothID(String clothID) {
+        this.clothID = clothID;
     }
 
     public String getClotheImageUrl() {
@@ -31,9 +48,11 @@ public class ClothesModel {
         this.clotheImageUrl = clotheImageUrl;
     }
 
-    public ClothesModel(String shirtID, String clotheImageUrl, int clothColour) {
-        this.clothID = shirtID;
+    public ClothesModel(String clothID, String clotheImageUrl, int clothColour, String ClothType, String uploadDate) {
+        this.clothID = clothID;
         this.clotheImageUrl = clotheImageUrl;
         this.clothColour = clothColour;
+        this.uploadDate = uploadDate;
+        this.ClothType = ClothType;
     }
 }

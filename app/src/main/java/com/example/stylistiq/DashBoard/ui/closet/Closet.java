@@ -52,6 +52,8 @@ import org.tensorflow.lite.support.tensorbuffer.TensorBuffer;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -101,8 +103,9 @@ public class Closet extends Fragment {
     FirebaseDatabase database;
     DatabaseReference reference;
     GridAdapter gridAdapter;
-    public static ArrayList<String> clothData;
+    public static ArrayList<String> clothData, clothClassList, clothDateList;
 
+    ArrayList<ClothesModel> newData;
 
     public Closet() {
         // Required empty public constructor
@@ -140,7 +143,6 @@ public class Closet extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_closet, container, false);
-        initialiseViews(view);
         initialiseViews(view);
         addImageBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -305,8 +307,8 @@ public class Closet extends Fragment {
 
     //FUNCTION TO INSERT VALUES TO REALTIME DATABASE
     public void insertRealtimeDatabase(String imageUrl, String clothID, String imageClass, int clothColour) {
-
-        ClothesModel clothesModel = new ClothesModel(clothID, imageUrl, clothColour);
+        String UploadDate = getCurrentDate();
+        ClothesModel clothesModel = new ClothesModel(clothID, imageUrl, clothColour, imageClass, UploadDate);
         reference.child("Closet").child(_phone)
                 .child("Category").child(imageClass)
                 .child(clothID)
@@ -315,7 +317,7 @@ public class Closet extends Fragment {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         if (task.isSuccessful()) {
-//                            Toast.makeText(getContext(), "Successfully realtime updated", Toast.LENGTH_SHORT).show();
+//
                         } else {
                             Toast.makeText(getContext(), "Not Successfully realtime updated", Toast.LENGTH_SHORT).show();
                         }
@@ -323,6 +325,24 @@ public class Closet extends Fragment {
                 });
     }
 
+
+    public String getCurrentDate() {
+        LocalDate currentDate = null;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            currentDate = LocalDate.now();
+        }
+        DateTimeFormatter formatter = null;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            formatter = DateTimeFormatter.ofPattern("dd, MMM yyyy");
+        }
+        String date = null;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            date = currentDate.format(formatter);
+        }
+
+        return date;
+
+    }
 
     //FUNCTION TO GET COLOUR OF IMAGE
     public void getClothColour(String imageUrl, String clothID, String imageClass) {
@@ -391,8 +411,11 @@ public class Closet extends Fragment {
 
 
         clothData = new ArrayList<>();
+        clothClassList = new ArrayList<>();
+        clothDateList = new ArrayList<>();
 
-        gridAdapter = new GridAdapter(getContext(), clothData);
+
+        gridAdapter = new GridAdapter(getContext(), clothData, clothClassList, clothDateList);
         gridView.setAdapter(gridAdapter);
 
         getAllClothesImages();
@@ -409,8 +432,12 @@ public class Closet extends Fragment {
     public void dataReferenceCall(String imageClass) {
 //        loadingAlert.startAlertDialog();
         if (imageClass.equals("All")) {
+
             getAllClothesImages();
         } else {
+            clothData.clear();
+            clothClassList.clear();
+            clothDateList.clear();
 
             reference.child("Closet").child(_phone).child("Category")
                     .child(imageClass)
@@ -422,19 +449,39 @@ public class Closet extends Fragment {
                                 notFound.setVisibility(View.INVISIBLE);
                                 for (DataSnapshot closetSnapshot : snapshot.getChildren()) {
                                     String _clotheImageUrl = closetSnapshot.child("clotheImageUrl").getValue(String.class);
+                                    String _clothClass = closetSnapshot.child("clothType").getValue(String.class);
+                                    String _uploadDate = closetSnapshot.child("uploadDate").getValue(String.class);
+
+//                                    ClothesModel clothesModel = closetSnapshot.getValue(ClothesModel.class);
+//                                    newData.add(clothesModel);
+
+//                                    Toast.makeText(getContext(), "NEW DATA SIZE : " + newData.size(), Toast.LENGTH_SHORT).show();
+
                                     clothData.add(_clotheImageUrl);
+                                    clothClassList.add(_clothClass);
+                                    clothDateList.add(_uploadDate);
                                 }
                                 LinkedHashSet<String> linkedHashSet = new LinkedHashSet<>(clothData);
+//                                LinkedHashSet<String> linkedHashImageClass = new LinkedHashSet<>(clothClassList);
+//                                LinkedHashSet<String> linkedHashDate = new LinkedHashSet<>(clothDateList);
+
                                 clothData.clear();
+//                                clothClassList.clear();
+//                                clothDateList.clear();
                                 clothData.addAll(linkedHashSet);
+//                                clothClassList.addAll(linkedHashImageClass);
+//                                clothDateList.addAll(linkedHashDate);
                                 gridAdapter.notifyDataSetChanged();
 //                            loadingAlert.closeAlertDialog();
 
                             } else {
 //                            loadingAlert.closeAlertDialog();
                                 gridView.setVisibility(View.INVISIBLE);
-                                clothData.clear();
                                 notFound.setVisibility(View.VISIBLE);
+                                clothData.clear();
+                                clothClassList.clear();
+                                clothDateList.clear();
+
                             }
                         }
 
@@ -449,21 +496,36 @@ public class Closet extends Fragment {
 
     public void getAllClothesImages() {
 //        clothData.clear();
+        clothData.clear();
+        clothClassList.clear();
+        clothDateList.clear();
         reference.child("Closet").child(_phone).child("Category")
                 .addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         gridView.setVisibility(View.VISIBLE);
-                        notFound.setVisibility(View.INVISIBLE);
                         for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                             for (DataSnapshot innerSnapShot : dataSnapshot.getChildren()) {
-//                                System.out.println("DATA VALUE : " + innerSnapShot.child("clotheImageUrl").getValue(String.class));
-                                clothData.add(innerSnapShot.child("clotheImageUrl").getValue(String.class));
+                                String _clotheImageUrl = innerSnapShot.child("clotheImageUrl").getValue(String.class);
+                                String _clothClass = innerSnapShot.child("clothType").getValue(String.class);
+                                String _uploadDate = innerSnapShot.child("uploadDate").getValue(String.class);
+
+
+                                clothData.add(_clotheImageUrl);
+                                clothClassList.add(_clothClass);
+                                clothDateList.add(_uploadDate);
                             }
                         }
                         LinkedHashSet<String> linkedHashSet = new LinkedHashSet<>(clothData);
+                        //LinkedHashSet<String> linkedHashImageClass = new LinkedHashSet<>(clothClassList);
+//                                LinkedHashSet<String> linkedHashDate = new LinkedHashSet<>(clothDateList);
+
                         clothData.clear();
+                        //clothClassList.clear();
+                        //clothDateList.clear();
                         clothData.addAll(linkedHashSet);
+
+                        //clothClassList.addAll(linkedHashImageClass);
                         gridAdapter.notifyDataSetChanged();
                     }
 
