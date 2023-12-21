@@ -436,7 +436,7 @@ public class Closet extends Fragment {
 
             getAllClothesImages();
         } else {
-            clothData.clear();
+            allClothData.clear();
 //            clothClassList.clear();
 //            clothDateList.clear();
 
@@ -496,7 +496,7 @@ public class Closet extends Fragment {
 
     public void getAllClothesImages() {
 //        clothData.clear();
-        clothData.clear();
+        allClothData.clear();
         clothClassList.clear();
         clothDateList.clear();
         reference.child("Closet").child(_phone).child("Category")
