@@ -17,26 +17,12 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <ImageButton
-            android:id="@+id/tool_menuBtn"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:background="@color/defaultBorderFlagColor"
-            android:src="@drawable/toolbar_menu"
-            tools:layout_editor_absoluteX="16dp"
-            tools:layout_editor_absoluteY="5dp" />
-
-        <TextView
-            android:id="@+id/toolbarHeader"
+        <ImageView
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/your_closet"
-            android:gravity="center"
-            android:fontFamily="@font/bevietnam_pro_semibold"
-            android:textSize="20sp"
-            android:layout_gravity="center"
-            android:textColor="@color/white"
-            android:visibility="invisible"/>
+            android:layout_height="35dp"
+            android:paddingStart="-25dp"
+            android:src="@drawable/app_full_logo"
+            tools:ignore="RtlSymmetry" />
 
         <ImageButton
             android:id="@+id/settingBtn"
