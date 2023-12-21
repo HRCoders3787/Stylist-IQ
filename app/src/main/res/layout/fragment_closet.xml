@@ -37,7 +37,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginTop="16dp"
-        app:layout_constraintBottom_toTopOf="@+id/addImageBtn"
+        app:layout_constraintBottom_toBottomOf="@+id/addImageBtn"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textInputLayout">
@@ -80,6 +80,7 @@
         android:layout_gravity="bottom|end"
         android:backgroundTint="#FFD42D"
         android:elevation="6dp"
+        android:layout_margin="20dp"
         android:src="@drawable/baseline_add_24"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
