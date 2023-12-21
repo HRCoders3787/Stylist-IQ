@@ -29,20 +29,33 @@ public class GridAdapter extends BaseAdapter {
     ArrayList<String> clothData;
     ArrayList<String> clothClassList;
     ArrayList<String> clothDateList;
+
+    ArrayList<ClothesModel> allClothData;
     LayoutInflater inflater;
 
-    public GridAdapter(Context context, ArrayList<String> clothData, ArrayList<String> clothClassList,
-                       ArrayList<String> clothDateList) {
+//    public GridAdapter(Context context, ArrayList<String> clothData, ArrayList<String> clothClassList,
+//                       ArrayList<String> clothDateList) {
+//        this.context = context;
+//        this.clothData = clothData;
+//        this.clothClassList = clothClassList;
+//        this.clothDateList = clothDateList;
+//    }
+
+    public GridAdapter(Context context, ArrayList<ClothesModel> allClothData) {
         this.context = context;
-        this.clothData = clothData;
-        this.clothClassList = clothClassList;
-        this.clothDateList = clothDateList;
+        this.allClothData = allClothData;
     }
+
+//    @Override
+//    public int getCount() {
+//
+//        return clothData.size();
+//    }
+
 
     @Override
     public int getCount() {
-
-        return clothData.size();
+        return allClothData.size();
     }
 
     @Override
@@ -67,9 +80,9 @@ public class GridAdapter extends BaseAdapter {
         TextView clothClass = convertView.findViewById(R.id.clothClass);
         TextView clothDate = convertView.findViewById(R.id.clothDate);
 
-        Glide.with(context).load(clothData.get(position)).into(imageView);
-        clothClass.setText(clothClassList.get(position));
-        clothDate.setText(clothDateList.get(position));
+        Glide.with(context).load(allClothData.get(position).getClotheImageUrl()).into(imageView);
+        clothClass.setText(allClothData.get(position).getClothType());
+        clothDate.setText(allClothData.get(position).getUploadDate());
 
         return convertView;
     }

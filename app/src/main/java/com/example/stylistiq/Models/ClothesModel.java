@@ -8,12 +8,15 @@ public class ClothesModel {
     String ClothType;
     String uploadDate;
 
+    public ClothesModel() {
+    }
+
     public String getClothType() {
         return ClothType;
     }
 
     public void setClothType(String clothType) {
-        ClothType = clothType;
+        this.ClothType = clothType;
     }
 
     public String getUploadDate() {

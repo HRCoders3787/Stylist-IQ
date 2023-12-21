@@ -105,7 +105,7 @@ public class Closet extends Fragment {
     GridAdapter gridAdapter;
     public static ArrayList<String> clothData, clothClassList, clothDateList;
 
-    ArrayList<ClothesModel> newData;
+    ArrayList<ClothesModel> allClothData;
 
     public Closet() {
         // Required empty public constructor
@@ -413,9 +413,10 @@ public class Closet extends Fragment {
         clothData = new ArrayList<>();
         clothClassList = new ArrayList<>();
         clothDateList = new ArrayList<>();
+        allClothData = new ArrayList<>();
 
-
-        gridAdapter = new GridAdapter(getContext(), clothData, clothClassList, clothDateList);
+//        gridAdapter = new GridAdapter(getContext(), clothData, clothClassList, clothDateList);
+        gridAdapter = new GridAdapter(getContext(), allClothData);
         gridView.setAdapter(gridAdapter);
 
         getAllClothesImages();
@@ -436,8 +437,8 @@ public class Closet extends Fragment {
             getAllClothesImages();
         } else {
             clothData.clear();
-            clothClassList.clear();
-            clothDateList.clear();
+//            clothClassList.clear();
+//            clothDateList.clear();
 
             reference.child("Closet").child(_phone).child("Category")
                     .child(imageClass)
@@ -448,27 +449,26 @@ public class Closet extends Fragment {
                                 gridView.setVisibility(View.VISIBLE);
                                 notFound.setVisibility(View.INVISIBLE);
                                 for (DataSnapshot closetSnapshot : snapshot.getChildren()) {
-                                    String _clotheImageUrl = closetSnapshot.child("clotheImageUrl").getValue(String.class);
-                                    String _clothClass = closetSnapshot.child("clothType").getValue(String.class);
-                                    String _uploadDate = closetSnapshot.child("uploadDate").getValue(String.class);
+//                                    String _clotheImageUrl = closetSnapshot.child("clotheImageUrl").getValue(String.class);
+//                                    String _clothClass = closetSnapshot.child("clothType").getValue(String.class);
+//                                    String _uploadDate = closetSnapshot.child("uploadDate").getValue(String.class);
 
-//                                    ClothesModel clothesModel = closetSnapshot.getValue(ClothesModel.class);
-//                                    newData.add(clothesModel);
+                                    ClothesModel clothesModel = closetSnapshot.getValue(ClothesModel.class);
+                                    allClothData.add(clothesModel);
 
-//                                    Toast.makeText(getContext(), "NEW DATA SIZE : " + newData.size(), Toast.LENGTH_SHORT).show();
 
-                                    clothData.add(_clotheImageUrl);
-                                    clothClassList.add(_clothClass);
-                                    clothDateList.add(_uploadDate);
+//                                    clothData.add(_clotheImageUrl);
+//                                    clothClassList.add(_clothClass);
+//                                    clothDateList.add(_uploadDate);
                                 }
-                                LinkedHashSet<String> linkedHashSet = new LinkedHashSet<>(clothData);
+//                                LinkedHashSet<String> linkedHashSet = new LinkedHashSet<>(clothData);
 //                                LinkedHashSet<String> linkedHashImageClass = new LinkedHashSet<>(clothClassList);
 //                                LinkedHashSet<String> linkedHashDate = new LinkedHashSet<>(clothDateList);
 
-                                clothData.clear();
+//                                clothData.clear();
 //                                clothClassList.clear();
 //                                clothDateList.clear();
-                                clothData.addAll(linkedHashSet);
+//                                clothData.addAll(linkedHashSet);
 //                                clothClassList.addAll(linkedHashImageClass);
 //                                clothDateList.addAll(linkedHashDate);
                                 gridAdapter.notifyDataSetChanged();
@@ -478,9 +478,9 @@ public class Closet extends Fragment {
 //                            loadingAlert.closeAlertDialog();
                                 gridView.setVisibility(View.INVISIBLE);
                                 notFound.setVisibility(View.VISIBLE);
-                                clothData.clear();
-                                clothClassList.clear();
-                                clothDateList.clear();
+//                                clothData.clear();
+//                                clothClassList.clear();
+//                                clothDateList.clear();
 
                             }
                         }
@@ -506,24 +506,26 @@ public class Closet extends Fragment {
                         gridView.setVisibility(View.VISIBLE);
                         for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                             for (DataSnapshot innerSnapShot : dataSnapshot.getChildren()) {
-                                String _clotheImageUrl = innerSnapShot.child("clotheImageUrl").getValue(String.class);
-                                String _clothClass = innerSnapShot.child("clothType").getValue(String.class);
-                                String _uploadDate = innerSnapShot.child("uploadDate").getValue(String.class);
+//                                String _clotheImageUrl = innerSnapShot.child("clotheImageUrl").getValue(String.class);
+//                                String _clothClass = innerSnapShot.child("clothType").getValue(String.class);
+//                                String _uploadDate = innerSnapShot.child("uploadDate").getValue(String.class);
 
 
-                                clothData.add(_clotheImageUrl);
-                                clothClassList.add(_clothClass);
-                                clothDateList.add(_uploadDate);
+                                ClothesModel clothesModel = innerSnapShot.getValue(ClothesModel.class);
+                                allClothData.add(clothesModel);
+//                                clothData.add(_clotheImageUrl);
+//                                clothClassList.add(_clothClass);
+//                                clothDateList.add(_uploadDate);
                             }
                         }
-                        LinkedHashSet<String> linkedHashSet = new LinkedHashSet<>(clothData);
+//                        LinkedHashSet<String> linkedHashSet = new LinkedHashSet<>(clothData);
                         //LinkedHashSet<String> linkedHashImageClass = new LinkedHashSet<>(clothClassList);
 //                                LinkedHashSet<String> linkedHashDate = new LinkedHashSet<>(clothDateList);
 
-                        clothData.clear();
+//                        clothData.clear();
                         //clothClassList.clear();
                         //clothDateList.clear();
-                        clothData.addAll(linkedHashSet);
+//                        clothData.addAll(linkedHashSet);
 
                         //clothClassList.addAll(linkedHashImageClass);
                         gridAdapter.notifyDataSetChanged();
@@ -531,7 +533,7 @@ public class Closet extends Fragment {
 
                     @Override
                     public void onCancelled(@NonNull DatabaseError error) {
-                        clothData.clear();
+                        allClothData.clear();
                     }
                 });
     }
