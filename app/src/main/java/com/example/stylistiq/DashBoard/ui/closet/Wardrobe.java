@@ -5,20 +5,23 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
-import android.view.LayoutInflater;
+import android.view.Gravity;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.GridView;
+import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.palette.graphics.Palette;
 
 import com.example.stylistiq.Adapters.GridAdapter.GridAdapter;
@@ -28,12 +31,10 @@ import com.example.stylistiq.R;
 import com.example.stylistiq.Session.SessionManager;
 import com.example.stylistiq.databinding.ActivityMainBinding;
 import com.example.stylistiq.ml.ModelUnquant;
-import com.github.dhaval2404.imagepicker.ImagePicker;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -57,35 +58,20 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link Closet#newInstance} factory method to
- * create an instance of this fragment.
- */
-public class Closet extends Fragment {
-
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+public class Wardrobe extends AppCompatActivity {
 
     String[] item = {"All", "Shirt", "Formal Pants", "Trouser", "Jeans", "TShirt"};
     AutoCompleteTextView category;
     ArrayAdapter<String> adapterItems;
     ActivityMainBinding binding;
 
-
     HashMap<String, String> userDetails;
 
     //Session Manager
     SessionManager sessionManager;
-    FloatingActionButton addImageBtn;
+    ImageButton back_btn, menu_btn;
     GridView gridView;
-    TextView notFound;
+    //    TextView notFound;
     ImageView trialImage;
     TextView trialText;
     String _phone;
@@ -102,70 +88,28 @@ public class Closet extends Fragment {
 
     ArrayList<ClothesModel> allClothData;
 
-    public Closet() {
-        // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment Closet.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static Closet newInstance(String param1, String param2) {
-        Closet fragment = new Closet();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
+        setContentView(R.layout.wardrobe);
+
+        initialiseViews();
     }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_closet, container, false);
-        initialiseViews(view);
-        addImageBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ImagePicker.with(Closet.this)
-                        .crop()
-                        .compress(100)
-                        .maxResultSize(224, 224)
-                        .start();
-            }
-        });
-
-        return view;
-    }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         String ImageClass = "";
         Uri uri = data.getData();
-        Bitmap bitmap = ImageUtils.uriToBitmap(getContext(), uri);
+        Bitmap bitmap = ImageUtils.uriToBitmap(getApplicationContext(), uri);
         if (bitmap != null) {
             ImageClass = classifyImage(bitmap);
-            Toast.makeText(getContext(), "Image class : " + ImageClass, Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "Image class : " + ImageClass, Toast.LENGTH_SHORT).show();
             filenameCreator(uri, ImageClass);
             trialImage.setImageBitmap(bitmap);
         } else {
-            Toast.makeText(getContext(), "Not able to upload", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "Not able to upload", Toast.LENGTH_SHORT).show();
         }
 
     }
@@ -175,7 +119,7 @@ public class Closet extends Fragment {
         String imageClass = null;
 
         try {
-            ModelUnquant model = ModelUnquant.newInstance(getContext());
+            ModelUnquant model = ModelUnquant.newInstance(getApplicationContext());
             TensorBuffer inputFeature0 = TensorBuffer.createFixedSize(new int[]{1, 224, 224, 3}, DataType.FLOAT32);
 
             ByteBuffer byteBuffer = ByteBuffer.allocateDirect(4 * imageSize * imageSize * 3);
@@ -220,7 +164,7 @@ public class Closet extends Fragment {
             // Releases model resources if no longer used.
             model.close();
         } catch (Exception e) {
-            Toast.makeText(getContext(), "Error : " + e.getMessage().toString(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "Error : " + e.getMessage().toString(), Toast.LENGTH_SHORT).show();
         }
 
         return imageClass;
@@ -273,7 +217,7 @@ public class Closet extends Fragment {
                 }).addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(getContext(), e.getMessage().toString(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), e.getMessage().toString(), Toast.LENGTH_SHORT).show();
                     }
                 });
     }
@@ -282,7 +226,6 @@ public class Closet extends Fragment {
     //FUNCTION TO GET IMAGE-ID PREFIX VALUE
     public String getImagePrefix(String imageClass) {
         String imagePrefix = null;
-
 
         if (imageClass.equals("Shirt")) {
             imagePrefix = "S";
@@ -314,12 +257,11 @@ public class Closet extends Fragment {
                         if (task.isSuccessful()) {
 //
                         } else {
-                            Toast.makeText(getContext(), "Not Successfully realtime updated", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(), "Not Successfully realtime updated", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
     }
-
 
     public String getCurrentDate() {
         LocalDate currentDate = null;
@@ -355,7 +297,7 @@ public class Closet extends Fragment {
                 }
             });
         } else {
-            Toast.makeText(getContext(), "bitmap empty", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "bitmap empty", Toast.LENGTH_SHORT).show();
         }
 
     }
@@ -377,28 +319,43 @@ public class Closet extends Fragment {
     }
 
     //FUNCTION TO INITIALISE VIEWS
-    public void initialiseViews(View view) {
-        category = view.findViewById(R.id.category);
-        gridView = view.findViewById(R.id.gridView);
-            addImageBtn = view.findViewById(R.id.addImageBtn);
-        notFound = view.findViewById(R.id.notFound);
-        trialImage = view.findViewById(R.id.trialImage);
+    public void initialiseViews() {
+        category = findViewById(R.id.category);
+        gridView = findViewById(R.id.gridView);
+        back_btn = findViewById(R.id.back_btn);
+        menu_btn = findViewById(R.id.menu_btn);
+//        notFound = findViewById(R.id.notFound);
+        trialImage = findViewById(R.id.trialImage);
 //        trialText = view.findViewById(R.id.trialText);
         //loadingAlert.startAlertDialog();
 
-        sessionManager = new SessionManager(getContext(), "userLoginSession");
+        back_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
+        menu_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showPopupMenu(v);
+            }
+        });
+
+        sessionManager = new SessionManager(getApplicationContext(), "userLoginSession");
         userDetails = sessionManager.getUserDetailsFromSession();
         _phone = userDetails.get(SessionManager.KEY_PHONENUMBER);
         database = FirebaseDatabase.getInstance();
         reference = database.getReference();
 
-        adapterItems = new ArrayAdapter<String>(getContext(), R.layout.drop_down_drawable, item);
+        adapterItems = new ArrayAdapter<String>(getApplicationContext(), R.layout.drop_down_drawable, item);
         category.setAdapter(adapterItems);
         category.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String dropDownValue = parent.getItemAtPosition(position).toString();
-                clothData.clear();
+//                clothData.clear();
                 dataReferenceCall(dropDownValue);
             }
         });
@@ -409,8 +366,8 @@ public class Closet extends Fragment {
         clothDateList = new ArrayList<>();
         allClothData = new ArrayList<>();
 
-//        gridAdapter = new GridAdapter(getContext(), clothData, clothClassList, clothDateList);
-        gridAdapter = new GridAdapter(getContext(), allClothData);
+//        gridAdapter = new GridAdapter(getApplicationContext(), clothData, clothClassList, clothDateList);
+        gridAdapter = new GridAdapter(getApplicationContext(), allClothData);
         gridView.setAdapter(gridAdapter);
 
         getAllClothesImages();
@@ -422,6 +379,40 @@ public class Closet extends Fragment {
 //            }
 //        });
     }
+
+    private void showPopupMenu(View v) {
+        PopupMenu popupMenu = new PopupMenu(this, v, Gravity.END);
+        popupMenu.getMenuInflater().inflate(R.menu.wardrobe_toolbar_menu, popupMenu.getMenu());
+
+        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                if (item.getItemId() == R.id.menu_add) {
+                    // Handle "Add" action
+                    return true;
+                } else if (item.getItemId() == R.id.menu_select) {
+                    // Handle "Select" action
+                    return true;
+                }
+                return false;
+            }
+        });
+
+        popupMenu.show();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.wardrobe_toolbar_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        // Handle other menu items if needed
+        return super.onOptionsItemSelected(item);
+    }
+
 
     //FUNCTION TO GET THE CLOSET IMAGES FROM DATABASE
     public void dataReferenceCall(String imageClass) {
@@ -440,7 +431,7 @@ public class Closet extends Fragment {
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
                             if (snapshot.exists()) {
                                 gridView.setVisibility(View.VISIBLE);
-                                notFound.setVisibility(View.INVISIBLE);
+//                                notFound.setVisibility(View.INVISIBLE);
                                 for (DataSnapshot closetSnapshot : snapshot.getChildren()) {
 //                                    String _clotheImageUrl = closetSnapshot.child("clotheImageUrl").getValue(String.class);
 //                                    String _clothClass = closetSnapshot.child("clothType").getValue(String.class);
@@ -470,7 +461,7 @@ public class Closet extends Fragment {
                             } else {
 //                            loadingAlert.closeAlertDialog();
                                 gridView.setVisibility(View.INVISIBLE);
-                                notFound.setVisibility(View.VISIBLE);
+//                                notFound.setVisibility(View.VISIBLE);
 //                                clothData.clear();
 //                                clothClassList.clear();
 //                                clothDateList.clear();
@@ -480,7 +471,7 @@ public class Closet extends Fragment {
 
                         @Override
                         public void onCancelled(@NonNull DatabaseError error) {
-                            Toast.makeText(getContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
                         }
 
                     });
@@ -489,14 +480,15 @@ public class Closet extends Fragment {
 
     public void getAllClothesImages() {
 //        clothData.clear();
-        allClothData.clear();
-        clothClassList.clear();
-        clothDateList.clear();
+//        allClothData.clear();
+//        clothClassList.clear();
+//        clothDateList.clear();
         reference.child("Closet").child(_phone).child("Category")
                 .addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         gridView.setVisibility(View.VISIBLE);
+                        clothData.clear();
                         for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                             for (DataSnapshot innerSnapShot : dataSnapshot.getChildren()) {
 //                                String _clotheImageUrl = innerSnapShot.child("clotheImageUrl").getValue(String.class);
@@ -530,7 +522,4 @@ public class Closet extends Fragment {
                 });
     }
 
-
 }
-
-
