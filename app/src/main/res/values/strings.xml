@@ -61,26 +61,33 @@
     <string name="female">Female</string>
 
 
-
     <!--    Google sgn in string-->
-<!--    <string name="default_web_client_id"></string>-->
+    <!--    <string name="default_web_client_id"></string>-->
 
-<!--    home dashboard string values-->
+    <!--    home dashboard string values-->
     <string name="weather_degree">37 °C</string>
     <string name="swipe_down">(Swipe down to view outfits)</string>
     <string name="hello_blank_fragment">blank frag,ent here</string>
     <string name="weather">Weather condition</string>
     <string name="weather_outfit"><u>Weather Outfits</u></string>
-    <string name="your_closet">Your Closet</string>
+    <string name="your_closet">Personal wardrobe</string>
     <string name="items12">12 item(s)</string>
     <string name="item_col_analysis">Item(s) Color Analysis</string>
     <string name="stats">Statistics</string>
     <string name="see_all"><u>See all</u></string>
     <string name="outfit_suggest">Outfit suggestions</string>
 
-<!--    Closet string values-->
+    <!--    Closet string values-->
+    <string name="add">Add item</string>
+    <string name="select">Select item(s)</string>
+    <string name="category">Category</string>
+    <string name="color">Color</string>
+    <string name="pattern">Pattern</string>
+    <string name="added">Added on</string>
+    <string name="label">Labels</string>
+    <string name="fabric">Fabric</string>
 
-<!--    Weather fragment strings-->
+    <!--    Weather fragment strings-->
     <string name="humid">Humidity:</string>
     <string name="cloud">Cloudy:</string>
     <string name="weather_suggest">Weather based suggestions</string>

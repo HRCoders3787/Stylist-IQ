@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 <!--    <color name="black">#FF000000</color>-->
+    <color name="alpha">#00FFFFFF</color>
     <color name="white">#FFFFFFFF</color>
     <color name="btnEnd">#F4F2FF</color>
     <color name="textColor">#383A46</color>
@@ -9,6 +10,7 @@
 
 <!--    Custom app colors-->
     <color name="black">#0B0A0B</color>
+    <color name="black2">#2D2B39</color>
     <color name="light_white">#F4F2FF</color>
     <color name="dop_down_bg">#F9F9F9</color>
     <color name="img_bg">#F3F3F3</color>

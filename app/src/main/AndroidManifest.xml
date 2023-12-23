@@ -18,6 +18,12 @@
         android:theme="@style/Theme.StylistIQ"
         tools:targetApi="31">
         <activity
+            android:name=".DashBoard.ui.closet.WardrobeOutfitSuggestions"
+            android:exported="false" />
+        <activity
+            android:name=".DashBoard.ui.closet.Wardrobe"
+            android:exported="false" />
+        <activity
             android:name=".DashBoard.DashBoard"
             android:exported="false" />
         <activity
@@ -25,15 +31,10 @@
             android:exported="false" />
         <activity
             android:name=".Signup.SignUp_1"
-            android:exported="false">
-
-        </activity>
+            android:exported="false" />
         <activity
             android:name=".Login.Login"
-            android:exported="false">
-
-
-        </activity>
+            android:exported="false" />
         <activity
             android:name=".Authentication_Panel.Authentication"
             android:exported="false" />
@@ -43,9 +44,9 @@
         <activity
             android:name=".Splash_Screen.MainActivity"
             android:exported="true">
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

@@ -1,7 +1,7 @@
 package com.example.stylistiq.DashBoard.ui.home;
 
 import android.Manifest;
-import android.content.Context;
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Address;
@@ -13,15 +13,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.ViewFlipper;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-import androidx.core.content.PackageManagerCompat;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -29,19 +25,16 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.example.stylistiq.DashBoard.ui.closet.Closet;
-import com.example.stylistiq.DashBoard.ui.weather.Weather;
+import com.example.stylistiq.DashBoard.ui.closet.Wardrobe;
+import com.example.stylistiq.DashBoard.ui.closet.WardrobeOutfitSuggestions;
 import com.example.stylistiq.R;
-import com.example.stylistiq.Weather.GET_Weather;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.button.MaterialButton;
 
-import org.checkerframework.checker.units.qual.C;
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.w3c.dom.Text;
 
 import java.io.IOException;
 import java.text.DecimalFormat;
@@ -113,12 +106,14 @@ public class Home extends Fragment {
         weather_btn = view.findViewById(R.id.weather_btn);
 
         see_all_btn.setOnClickListener(v -> {
-            Closet closetFragment = new Closet();
-            FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
-            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-            fragmentTransaction.replace(R.id.frame_layout, closetFragment);
-            fragmentTransaction.addToBackStack(null);
-            fragmentTransaction.commit();
+//            Closet closetFragment = new Closet();
+//            FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
+//            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+//            fragmentTransaction.replace(R.id.frame_layout, closetFragment);
+//            fragmentTransaction.addToBackStack(null);
+//            fragmentTransaction.commit();
+            Intent intent = new Intent(getContext(), Wardrobe.class);
+            startActivity(intent);
         });
 
 //        for (int i = 0; i < arrayList.size(); i++) {
@@ -142,21 +137,21 @@ public class Home extends Fragment {
 
     public void initialiseViews(View view) {
         tempText = view.findViewById(R.id.tempText);
-        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(getContext());
+        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(requireContext());
         getLastLocation();
-
     }
 
     private void getLastLocation() {
-        if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+        if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             fusedLocationProviderClient.getLastLocation()
                     .addOnSuccessListener(new OnSuccessListener<Location>() {
                         @Override
                         public void onSuccess(Location location) {
                             if (location != null) {
-                                Geocoder geocoder = new Geocoder(getContext(), Locale.getDefault());
+                                Geocoder geocoder = new Geocoder(requireContext(), Locale.getDefault());
                                 try {
                                     List<Address> addresses = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
+                                    assert addresses != null;
                                     City = addresses.get(0).getLocality();
 
                                     getWeatherDetails(City);
@@ -165,7 +160,7 @@ public class Home extends Fragment {
                                     throw new RuntimeException(e);
                                 }
                             } else {
-                                Toast.makeText(getContext(), "location is null", Toast.LENGTH_SHORT).show();
+//                                Toast.makeText(getContext(), "location is null", Toast.LENGTH_SHORT).show();
                             }
                         }
                     });
@@ -175,7 +170,7 @@ public class Home extends Fragment {
     }
 
     private void askPermission() {
-        ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_CODE);
+        ActivityCompat.requestPermissions(requireActivity(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_CODE);
     }
 
     public void getWeatherDetails(String city) {
@@ -183,6 +178,7 @@ public class Home extends Fragment {
         tempUrl = url + "?q=" + city + "&appid=" + appid;
 
         StringRequest stringRequest = new StringRequest(Request.Method.POST, tempUrl, new Response.Listener<String>() {
+            @SuppressLint("SetTextI18n")
             @Override
             public void onResponse(String response) {
                 try {
@@ -205,7 +201,7 @@ public class Home extends Fragment {
                     tempText.setText(df.format(temp) + " °C");
 
                 } catch (Exception ex) {
-                    Toast.makeText(getContext(), ex.getMessage().toString(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), ex.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             }
         }, new Response.ErrorListener() {
@@ -214,7 +210,7 @@ public class Home extends Fragment {
                 Toast.makeText(getContext(), error.toString(), Toast.LENGTH_SHORT).show();
             }
         });
-        RequestQueue requestQueue = Volley.newRequestQueue(getContext());
+        RequestQueue requestQueue = Volley.newRequestQueue(requireContext());
         requestQueue.add(stringRequest);
 
     }
