@@ -104,7 +104,7 @@ public class SignUp_1 extends AppCompatActivity {
         });
 
         backBtn.setOnClickListener(v -> {
-            finish();
+//            finish();
         });
 
         loginBtn.setOnClickListener(v -> {

@@ -380,7 +380,7 @@ public class Closet extends Fragment {
     public void initialiseViews(View view) {
         category = view.findViewById(R.id.category);
         gridView = view.findViewById(R.id.gridView);
-            addImageBtn = view.findViewById(R.id.addImageBtn);
+        addImageBtn = view.findViewById(R.id.addImageBtn);
         notFound = view.findViewById(R.id.notFound);
         trialImage = view.findViewById(R.id.trialImage);
 //        trialText = view.findViewById(R.id.trialText);

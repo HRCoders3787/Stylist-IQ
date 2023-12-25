@@ -104,5 +104,15 @@
     <!--        android:text="No clothes to show"-->
     <!--        android:textSize="18sp"-->
     <!--        android:visibility="invisible" />-->
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/trialImage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/add_clothes1"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/gridView"
+        tools:visibility="gone" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

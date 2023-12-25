@@ -25,16 +25,27 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.stylistiq.Adapters.GridAdapter.GridAdapter;
+import com.example.stylistiq.Adapters.GridAdapter.SuggestionAdapter;
+import com.example.stylistiq.Models.ClothesModel;
 import com.example.stylistiq.R;
+import com.example.stylistiq.Session.SessionManager;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.IOException;
 import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
@@ -51,6 +62,7 @@ public class Weather extends Fragment {
     private static final String ARG_PARAM2 = "param2";
 
     String City;
+    String _phone;
     private final String url = "https://api.openweathermap.org/data/2.5/weather/";
     private final String appid = "e53301e27efa0b66d05045d91b2742d3";
     FusedLocationProviderClient fusedLocationProviderClient;
@@ -63,6 +75,14 @@ public class Weather extends Fragment {
 
     TextView cloudTxt, humidityTxt, addressTxt, tempTxt;
     GridView weather_suggestions_grid_view;
+
+    FirebaseDatabase database;
+    DatabaseReference reference;
+    GridAdapter gridAdapter;
+    ArrayList<ClothesModel> allClothData;
+    SuggestionAdapter suggestionAdapter;
+    HashMap<String, String> userDetails;
+    SessionManager sessionManager;
 
     public Weather() {
         // Required empty public constructor
@@ -112,6 +132,20 @@ public class Weather extends Fragment {
         weather_suggestions_grid_view = view.findViewById(R.id.weather_suggestions_grid_view);
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(getContext());
         getLastLocation();
+
+
+        sessionManager = new SessionManager(getContext(), "userLoginSession");
+        userDetails = sessionManager.getUserDetailsFromSession();
+        _phone = userDetails.get(SessionManager.KEY_PHONENUMBER);
+        database = FirebaseDatabase.getInstance();
+        reference = database.getReference();
+
+        allClothData = new ArrayList<>();
+        getAllClothesImages();
+
+        suggestionAdapter = new SuggestionAdapter(getContext(), allClothData);
+        weather_suggestions_grid_view.setAdapter(suggestionAdapter);
+
     }
 
     private void getLastLocation() {
@@ -205,4 +239,29 @@ public class Weather extends Fragment {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
 
     }
+
+
+    public void getAllClothesImages() {
+        reference.child("Closet").child(_phone).child("Category")
+                .addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                        allClothData.clear();
+                        for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                            for (DataSnapshot innerSnapShot : dataSnapshot.getChildren()) {
+                                ClothesModel clothesModel = innerSnapShot.getValue(ClothesModel.class);
+                                allClothData.add(clothesModel);
+                            }
+                        }
+                        suggestionAdapter.notifyDataSetChanged();
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+                        allClothData.clear();
+                    }
+                });
+    }
+
 }

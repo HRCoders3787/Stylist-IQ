@@ -2,9 +2,11 @@ package com.example.stylistiq.DashBoard.ui.closet;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -31,6 +33,7 @@ import com.example.stylistiq.R;
 import com.example.stylistiq.Session.SessionManager;
 import com.example.stylistiq.databinding.ActivityMainBinding;
 import com.example.stylistiq.ml.ModelUnquant;
+import com.github.dhaval2404.imagepicker.ImagePicker;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -56,11 +59,13 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 public class Wardrobe extends AppCompatActivity {
 
     String[] item = {"All", "Shirt", "Formal Pants", "Trouser", "Jeans", "TShirt"};
+    String[] parseClothData = new String[6];
     AutoCompleteTextView category;
     ArrayAdapter<String> adapterItems;
     ActivityMainBinding binding;
@@ -84,8 +89,6 @@ public class Wardrobe extends AppCompatActivity {
     FirebaseDatabase database;
     DatabaseReference reference;
     GridAdapter gridAdapter;
-    public static ArrayList<String> clothData, clothClassList, clothDateList;
-
     ArrayList<ClothesModel> allClothData;
 
     @Override
@@ -97,6 +100,7 @@ public class Wardrobe extends AppCompatActivity {
     }
 
 
+    //FUNCTION TO GET IMAGES SELECTED FROM CAMERA OR GALLERY
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -104,10 +108,10 @@ public class Wardrobe extends AppCompatActivity {
         Uri uri = data.getData();
         Bitmap bitmap = ImageUtils.uriToBitmap(getApplicationContext(), uri);
         if (bitmap != null) {
+            trialImage.setImageBitmap(bitmap);
             ImageClass = classifyImage(bitmap);
             Toast.makeText(getApplicationContext(), "Image class : " + ImageClass, Toast.LENGTH_SHORT).show();
             filenameCreator(uri, ImageClass);
-            trialImage.setImageBitmap(bitmap);
         } else {
             Toast.makeText(getApplicationContext(), "Not able to upload", Toast.LENGTH_SHORT).show();
         }
@@ -172,29 +176,33 @@ public class Wardrobe extends AppCompatActivity {
 
     //FUNCTION TO CREATE IMAGE FILENAME
     public void filenameCreator(Uri imageUri, String imageClass) {
-        String filePrefix;
+        String filePrefix = "";
         String fileName = null;
         String clothID = null;
         filePrefix = getImagePrefix(imageClass);
+
         Random random = new Random();
         int number = random.nextInt(9000) + 1000;
-        if (filePrefix.equals("S")) {
-            clothID = filePrefix + number;
-            fileName = "Shirts/" + clothID;
-        } else if (filePrefix.equals("TS")) {
-            clothID = filePrefix + number;
-            fileName = "TShirt/" + clothID;
-        } else if (filePrefix.equals("J")) {
-            clothID = filePrefix + number;
-            fileName = "Jeans/" + clothID;
-        } else if (filePrefix.equals("FP")) {
-            clothID = filePrefix + number;
-            fileName = "Formal Pants/" + clothID;
-        } else if (filePrefix.equals("T")) {
-            clothID = filePrefix + number;
-            fileName = "Trouser/" + clothID;
+        if (!filePrefix.isEmpty()) {
+            if (filePrefix.equals("S")) {
+                clothID = filePrefix + number;
+                fileName = "Shirts/" + clothID;
+            } else if (filePrefix.equals("TS")) {
+                clothID = filePrefix + number;
+                fileName = "TShirt/" + clothID;
+            } else if (filePrefix.equals("J")) {
+                clothID = filePrefix + number;
+                fileName = "Jeans/" + clothID;
+            } else if (filePrefix.equals("FP")) {
+                clothID = filePrefix + number;
+                fileName = "Formal Pants/" + clothID;
+            } else if (filePrefix.equals("T")) {
+                clothID = filePrefix + number;
+                fileName = "Trouser/" + clothID;
+            }
+        } else {
+            Toast.makeText(this, "file prefix is empty", Toast.LENGTH_SHORT).show();
         }
-
         firebaseStorageUpload(fileName, imageUri, clothID, imageClass);
 
     }
@@ -225,22 +233,19 @@ public class Wardrobe extends AppCompatActivity {
 
     //FUNCTION TO GET IMAGE-ID PREFIX VALUE
     public String getImagePrefix(String imageClass) {
-        String imagePrefix = null;
 
         if (imageClass.equals("Shirt")) {
-            imagePrefix = "S";
+            return "S";
         } else if (imageClass.equals("TShirt")) {
-            imagePrefix = "TS";
+            return "TS";
         } else if (imageClass.equals("Jeans")) {
-            imagePrefix = "J";
-        } else if (imageClass.equals("Formal pants")) {
-            imagePrefix = "FP";
+            return "J";
+        } else if (imageClass.equals("Formal Pants")) {
+            return "FP";
         } else if (imageClass.equals("Trouser")) {
-            imagePrefix = "T";
+            return "T";
         }
-
-        return imagePrefix;
-
+        return null;
     }
 
     //FUNCTION TO INSERT VALUES TO REALTIME DATABASE
@@ -263,6 +268,8 @@ public class Wardrobe extends AppCompatActivity {
                 });
     }
 
+
+    //FUNCTION TO GET CURRENT DATE
     public String getCurrentDate() {
         LocalDate currentDate = null;
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
@@ -324,24 +331,11 @@ public class Wardrobe extends AppCompatActivity {
         gridView = findViewById(R.id.gridView);
         back_btn = findViewById(R.id.back_btn);
         menu_btn = findViewById(R.id.menu_btn);
-//        notFound = findViewById(R.id.notFound);
         trialImage = findViewById(R.id.trialImage);
-//        trialText = view.findViewById(R.id.trialText);
-        //loadingAlert.startAlertDialog();
 
-        back_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        back_btn.setOnClickListener(v -> finish());
 
-            }
-        });
-
-        menu_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showPopupMenu(v);
-            }
-        });
+        menu_btn.setOnClickListener(v -> showPopupMenu(v));
 
         sessionManager = new SessionManager(getApplicationContext(), "userLoginSession");
         userDetails = sessionManager.getUserDetailsFromSession();
@@ -351,35 +345,76 @@ public class Wardrobe extends AppCompatActivity {
 
         adapterItems = new ArrayAdapter<String>(getApplicationContext(), R.layout.drop_down_drawable, item);
         category.setAdapter(adapterItems);
-        category.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String dropDownValue = parent.getItemAtPosition(position).toString();
-//                clothData.clear();
-                dataReferenceCall(dropDownValue);
-            }
+        category.setOnItemClickListener((parent, view, position, id) -> {
+            String dropDownValue = parent.getItemAtPosition(position).toString();
+            dataReferenceCall(dropDownValue);
         });
 
-
-        clothData = new ArrayList<>();
-        clothClassList = new ArrayList<>();
-        clothDateList = new ArrayList<>();
         allClothData = new ArrayList<>();
-
-//        gridAdapter = new GridAdapter(getApplicationContext(), clothData, clothClassList, clothDateList);
         gridAdapter = new GridAdapter(getApplicationContext(), allClothData);
         gridView.setAdapter(gridAdapter);
 
         getAllClothesImages();
 
-//        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//
-//            }
-//        });
+        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+
+                Intent intent = new Intent(Wardrobe.this, WardrobeOutfitSuggestions.class);
+                intent.putExtra("clothData", setClothData_toArray(allClothData, position));
+                startActivity(intent);
+
+            }
+        });
     }
 
+
+    public String[] setClothData_toArray(ArrayList<ClothesModel> list, int pos) {
+        parseClothData[0] = list.get(pos).getClothID();
+        parseClothData[1] = list.get(pos).getClotheImageUrl();
+        parseClothData[2] = list.get(pos).getClothType();
+        parseClothData[3] = String.valueOf(list.get(pos).getClothColour());
+        parseClothData[4] = list.get(pos).getUploadDate();
+        parseClothData[5] = getColorName(list.get(pos).getClothColour());
+        return parseClothData;
+    }
+
+    private String getColorName(int colorInt) {
+        HashMap<String, Integer> colorMap = new HashMap<>();
+        colorMap.put("RED", Color.RED);
+        colorMap.put("GREEN", Color.GREEN);
+        colorMap.put("BLUE", Color.BLUE);
+        colorMap.put("YELLOW", Color.YELLOW);
+        colorMap.put("CYAN", Color.CYAN);
+        colorMap.put("MAGENTA", Color.MAGENTA);
+        colorMap.put("BLACK", Color.BLACK);
+        colorMap.put("WHITE", Color.WHITE);
+
+        String colorName = null;
+
+        for (Map.Entry<String, Integer> entry : colorMap.entrySet()) {
+            if (entry.getValue() == colorInt) {
+                colorName = entry.getKey();
+                break;
+            }
+        }
+
+        if (colorName == null) {
+            int alpha = Color.alpha(colorInt);
+            int red = Color.red(colorInt);
+            int green = Color.green(colorInt);
+            int blue = Color.blue(colorInt);
+
+            String hexColor = String.format("#%02x%02x%02x", red, green, blue);
+
+            colorName = hexColor;
+        }
+
+        return colorName;
+    }
+
+    //FUNCTION FOR MENU CLICK LISTENER
     private void showPopupMenu(View v) {
         PopupMenu popupMenu = new PopupMenu(this, v, Gravity.END);
         popupMenu.getMenuInflater().inflate(R.menu.wardrobe_toolbar_menu, popupMenu.getMenu());
@@ -388,7 +423,11 @@ public class Wardrobe extends AppCompatActivity {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
                 if (item.getItemId() == R.id.menu_add) {
-                    // Handle "Add" action
+                    ImagePicker.with(Wardrobe.this)
+                            .crop()
+                            .compress(100)
+                            .maxResultSize(224, 224)
+                            .start();
                     return true;
                 } else if (item.getItemId() == R.id.menu_select) {
                     // Handle "Select" action
@@ -400,6 +439,7 @@ public class Wardrobe extends AppCompatActivity {
 
         popupMenu.show();
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -416,14 +456,12 @@ public class Wardrobe extends AppCompatActivity {
 
     //FUNCTION TO GET THE CLOSET IMAGES FROM DATABASE
     public void dataReferenceCall(String imageClass) {
-//        loadingAlert.startAlertDialog();
+
         if (imageClass.equals("All")) {
+            allClothData.clear();
             getAllClothesImages();
         } else {
             allClothData.clear();
-//            clothClassList.clear();
-//            clothDateList.clear();
-
             reference.child("Closet").child(_phone).child("Category")
                     .child(imageClass)
                     .addValueEventListener(new ValueEventListener() {
@@ -431,40 +469,17 @@ public class Wardrobe extends AppCompatActivity {
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
                             if (snapshot.exists()) {
                                 gridView.setVisibility(View.VISIBLE);
-//                                notFound.setVisibility(View.INVISIBLE);
+
                                 for (DataSnapshot closetSnapshot : snapshot.getChildren()) {
-//                                    String _clotheImageUrl = closetSnapshot.child("clotheImageUrl").getValue(String.class);
-//                                    String _clothClass = closetSnapshot.child("clothType").getValue(String.class);
-//                                    String _uploadDate = closetSnapshot.child("uploadDate").getValue(String.class);
 
                                     ClothesModel clothesModel = closetSnapshot.getValue(ClothesModel.class);
                                     allClothData.add(clothesModel);
-
-
-//                                    clothData.add(_clotheImageUrl);
-//                                    clothClassList.add(_clothClass);
-//                                    clothDateList.add(_uploadDate);
                                 }
-//                                LinkedHashSet<String> linkedHashSet = new LinkedHashSet<>(clothData);
-//                                LinkedHashSet<String> linkedHashImageClass = new LinkedHashSet<>(clothClassList);
-//                                LinkedHashSet<String> linkedHashDate = new LinkedHashSet<>(clothDateList);
 
-//                                clothData.clear();
-//                                clothClassList.clear();
-//                                clothDateList.clear();
-//                                clothData.addAll(linkedHashSet);
-//                                clothClassList.addAll(linkedHashImageClass);
-//                                clothDateList.addAll(linkedHashDate);
                                 gridAdapter.notifyDataSetChanged();
-//                            loadingAlert.closeAlertDialog();
-
                             } else {
-//                            loadingAlert.closeAlertDialog();
+
                                 gridView.setVisibility(View.INVISIBLE);
-//                                notFound.setVisibility(View.VISIBLE);
-//                                clothData.clear();
-//                                clothClassList.clear();
-//                                clothDateList.clear();
 
                             }
                         }
@@ -478,40 +493,24 @@ public class Wardrobe extends AppCompatActivity {
         }
     }
 
+
+    //FUNCTION RETURNS ALL DATA FROM CLOSET FIREBASE TABLE.
     public void getAllClothesImages() {
-//        clothData.clear();
-//        allClothData.clear();
-//        clothClassList.clear();
-//        clothDateList.clear();
         reference.child("Closet").child(_phone).child("Category")
                 .addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         gridView.setVisibility(View.VISIBLE);
-                        clothData.clear();
+                        allClothData.clear();
                         for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                             for (DataSnapshot innerSnapShot : dataSnapshot.getChildren()) {
-//                                String _clotheImageUrl = innerSnapShot.child("clotheImageUrl").getValue(String.class);
-//                                String _clothClass = innerSnapShot.child("clothType").getValue(String.class);
-//                                String _uploadDate = innerSnapShot.child("uploadDate").getValue(String.class);
 
                                 ClothesModel clothesModel = innerSnapShot.getValue(ClothesModel.class);
                                 allClothData.add(clothesModel);
-//                                clothData.add(_clotheImageUrl);
-//                                clothClassList.add(_clothClass);
-//                                clothDateList.add(_uploadDate);
+
                             }
                         }
-//                        LinkedHashSet<String> linkedHashSet = new LinkedHashSet<>(clothData);
-                        //LinkedHashSet<String> linkedHashImageClass = new LinkedHashSet<>(clothClassList);
-//                                LinkedHashSet<String> linkedHashDate = new LinkedHashSet<>(clothDateList);
 
-//                        clothData.clear();
-                        //clothClassList.clear();
-                        //clothDateList.clear();
-//                        clothData.addAll(linkedHashSet);
-
-                        //clothClassList.addAll(linkedHashImageClass);
                         gridAdapter.notifyDataSetChanged();
                     }
 

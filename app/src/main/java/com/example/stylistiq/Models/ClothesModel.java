@@ -1,5 +1,10 @@
 package com.example.stylistiq.Models;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import androidx.annotation.NonNull;
+
 public class ClothesModel {
 
     String clothID;
@@ -58,4 +63,6 @@ public class ClothesModel {
         this.uploadDate = uploadDate;
         this.ClothType = ClothType;
     }
+
+
 }

@@ -4,6 +4,7 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
@@ -11,6 +12,8 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.GridView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -18,6 +21,8 @@ import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -25,13 +30,23 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.stylistiq.Adapters.GridAdapter.GridAdapter;
+import com.example.stylistiq.Adapters.GridAdapter.SuggestionAdapter;
+import com.example.stylistiq.Adapters.RecyclerAdapter.RecyclerAdapter;
 import com.example.stylistiq.DashBoard.ui.closet.Wardrobe;
 import com.example.stylistiq.DashBoard.ui.closet.WardrobeOutfitSuggestions;
+import com.example.stylistiq.Models.ClothesModel;
 import com.example.stylistiq.R;
+import com.example.stylistiq.Session.SessionManager;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.button.MaterialButton;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -39,8 +54,10 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -64,6 +81,7 @@ public class Home extends Fragment {
     private String mParam2;
 
     TextView tempText;
+    RecyclerView closet_recView;
     String City;
     private final String url = "https://api.openweathermap.org/data/2.5/weather/";
     private final String appid = "e53301e27efa0b66d05045d91b2742d3";
@@ -71,6 +89,16 @@ public class Home extends Fragment {
     FusedLocationProviderClient fusedLocationProviderClient;
     private final static int REQUEST_CODE = 100;
     DecimalFormat df = new DecimalFormat("#.#");
+    ArrayList<ClothesModel> allClothData;
+    RecyclerAdapter recyclerAdapter;
+    SuggestionAdapter suggestionAdapter;
+    GridView suggestions_grid_view;
+    FirebaseDatabase database;
+    DatabaseReference reference;
+    HashMap<String, String> userDetails;
+    String _phone;
+    String parseClothData[] = new String[6];
+    SessionManager sessionManager;
 
     public Home() {
         // Required empty public constructor
@@ -106,38 +134,40 @@ public class Home extends Fragment {
         weather_btn = view.findViewById(R.id.weather_btn);
 
         see_all_btn.setOnClickListener(v -> {
-//            Closet closetFragment = new Closet();
-//            FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
-//            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-//            fragmentTransaction.replace(R.id.frame_layout, closetFragment);
-//            fragmentTransaction.addToBackStack(null);
-//            fragmentTransaction.commit();
             Intent intent = new Intent(getContext(), Wardrobe.class);
             startActivity(intent);
         });
 
-//        for (int i = 0; i < arrayList.size(); i++) {
-//            showImage(arrayList.get(i));
-//        }
         return view;
     }
 
-//    public void showImage(String text) {
-//
-//        View view = LayoutInflater.from(getContext()).inflate(R.layout.slider_items, null);
-//        TextView tempText = view.findViewById(R.id.tempText);
-//        tempText.setText(text);
-//        imageSlider.addView(view);
-//        imageSlider.setFlipInterval(2000);
-//        imageSlider.setAutoStart(true);
-//        imageSlider.setInAnimation(getContext(), android.R.anim.slide_in_left);
-//        imageSlider.setOutAnimation(getContext(), android.R.anim.slide_out_right);
-//
-//    }
 
     public void initialiseViews(View view) {
         tempText = view.findViewById(R.id.tempText);
+        closet_recView = view.findViewById(R.id.closet_recView);
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(requireContext());
+        suggestions_grid_view = view.findViewById(R.id.suggestions_grid_view);
+
+
+        sessionManager = new SessionManager(getContext(), "userLoginSession");
+        userDetails = sessionManager.getUserDetailsFromSession();
+        _phone = userDetails.get(SessionManager.KEY_PHONENUMBER);
+        database = FirebaseDatabase.getInstance();
+        reference = database.getReference();
+
+        allClothData = new ArrayList<>();
+        getAllClothesImages();
+
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+        layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+        closet_recView.setLayoutManager(layoutManager);
+        recyclerAdapter = new RecyclerAdapter(allClothData, getContext());
+        closet_recView.setAdapter(recyclerAdapter);
+
+        suggestionAdapter = new SuggestionAdapter(getContext(), allClothData);
+        suggestions_grid_view.setAdapter(suggestionAdapter);
+
+
         getLastLocation();
     }
 
@@ -229,4 +259,29 @@ public class Home extends Fragment {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
 
     }
+
+
+    public void getAllClothesImages() {
+        reference.child("Closet").child(_phone).child("Category")
+                .addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        allClothData.clear();
+                        for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                            for (DataSnapshot innerSnapShot : dataSnapshot.getChildren()) {
+                                ClothesModel clothesModel = innerSnapShot.getValue(ClothesModel.class);
+                                allClothData.add(clothesModel);
+                            }
+                        }
+                        recyclerAdapter.notifyDataSetChanged();
+                        suggestionAdapter.notifyDataSetChanged();
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+                        allClothData.clear();
+                    }
+                });
+    }
+
 }

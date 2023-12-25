@@ -51,7 +51,6 @@ public class DashBoard extends AppCompatActivity {
 
     }
 
-
     private void initializeViews() {
         bottomNavigationView = findViewById(R.id.bottomNavigationView);
     }
