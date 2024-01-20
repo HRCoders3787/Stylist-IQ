@@ -19,7 +19,7 @@
     <color name="subTxtColor">#EDEDED</color>
     <color name="or_dash">#B6B6B6</color>
 <!--    <color name="colorAccent"></color>-->
-
+    <color name="or_dash2">#E1D3D3</color>
 <!--    Dashboard-->
     <color name="toolbar_background">#181818</color>
     <color name="toolbar_setting_color">#544CE3</color>

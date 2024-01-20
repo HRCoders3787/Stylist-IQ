@@ -10,7 +10,8 @@
         android:id="@+id/clothes"
         android:layout_width="160dp"
         android:layout_height="160dp"
-        android:scaleType="centerCrop" />
+        android:scaleType="centerCrop"
+        android:backgroundTint="@color/white"/>
 
     <TextView
         android:id="@+id/clothClass"

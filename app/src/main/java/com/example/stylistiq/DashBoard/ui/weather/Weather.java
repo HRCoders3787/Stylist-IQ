@@ -27,7 +27,10 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.stylistiq.Adapters.GridAdapter.GridAdapter;
 import com.example.stylistiq.Adapters.GridAdapter.SuggestionAdapter;
+import com.example.stylistiq.DashBoard.suggestionAlgo.Algorithm;
+import com.example.stylistiq.DashBoard.suggestionAlgo.DataBase;
 import com.example.stylistiq.Models.ClothesModel;
+import com.example.stylistiq.Models.SuggestionModel;
 import com.example.stylistiq.R;
 import com.example.stylistiq.Session.SessionManager;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -79,10 +82,11 @@ public class Weather extends Fragment {
     FirebaseDatabase database;
     DatabaseReference reference;
     GridAdapter gridAdapter;
-    ArrayList<ClothesModel> allClothData;
+    ArrayList<SuggestionModel> suggestionData;
     SuggestionAdapter suggestionAdapter;
     HashMap<String, String> userDetails;
     SessionManager sessionManager;
+
 
     public Weather() {
         // Required empty public constructor
@@ -129,6 +133,7 @@ public class Weather extends Fragment {
         tempTxt = view.findViewById(R.id.tempTxt);
         humidityTxt = view.findViewById(R.id.humidity);
         addressTxt = view.findViewById(R.id.address);
+//        debugText = view.findViewById(R.id.debugText);
         weather_suggestions_grid_view = view.findViewById(R.id.weather_suggestions_grid_view);
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(getContext());
         getLastLocation();
@@ -140,12 +145,48 @@ public class Weather extends Fragment {
         database = FirebaseDatabase.getInstance();
         reference = database.getReference();
 
-        allClothData = new ArrayList<>();
-        getAllClothesImages();
+        suggestionData = new ArrayList<>();
+        getAllSuggestionClothesImages();
 
-        suggestionAdapter = new SuggestionAdapter(getContext(), allClothData);
+        suggestionAdapter = new SuggestionAdapter(getContext(), suggestionData);
         weather_suggestions_grid_view.setAdapter(suggestionAdapter);
 
+    }
+
+//    private void getColorsANDImages(ArrayList<ClothesModel> data) {
+//        String type = null;
+//        if (!data.isEmpty()) {
+//            for (ClothesModel clothesModel : data) {
+//                type += clothesModel.getClothType() + "\n";
+//                if (clothesModel.getClothType() == "Shirt") {
+//                    if (alreadyPresentSuggestion()) {
+//
+//                    }
+//                }
+//            }
+//            debugText.setText(type);
+//        } else {
+//            Toast.makeText(getContext(), "EMPTY ALL CLOTHES DATA", Toast.LENGTH_SHORT).show();
+//        }
+//    }
+
+    private boolean alreadyPresentSuggestion() {
+        boolean flag = false;
+        reference.child("Suggestion").child(_phone)
+                .child("Top").addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        if (snapshot.exists()) {
+
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+        return flag;
     }
 
     private void getLastLocation() {
@@ -179,6 +220,7 @@ public class Weather extends Fragment {
     private void askPermission() {
         ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_CODE);
     }
+
 
     public void getWeatherDetails(String city) {
         String tempUrl = "";
@@ -241,27 +283,30 @@ public class Weather extends Fragment {
     }
 
 
-    public void getAllClothesImages() {
-        reference.child("Closet").child(_phone).child("Category")
+    public void getAllSuggestionClothesImages() {
+        reference.child("Suggestion")
+                .child(_phone)
                 .addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
-
-                        allClothData.clear();
-                        for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                            for (DataSnapshot innerSnapShot : dataSnapshot.getChildren()) {
-                                ClothesModel clothesModel = innerSnapShot.getValue(ClothesModel.class);
-                                allClothData.add(clothesModel);
+                        if (snapshot.exists())
+                        {
+                            suggestionData.clear();
+                            for (DataSnapshot snapshot1 : snapshot.getChildren())
+                            {
+                                SuggestionModel suggestionModel = snapshot1.getValue(SuggestionModel.class);
+                                suggestionData.add(suggestionModel);
                             }
+                            suggestionAdapter.notifyDataSetChanged();
                         }
-                        suggestionAdapter.notifyDataSetChanged();
                     }
 
                     @Override
                     public void onCancelled(@NonNull DatabaseError error) {
-                        allClothData.clear();
+
                     }
                 });
+
     }
 
 }

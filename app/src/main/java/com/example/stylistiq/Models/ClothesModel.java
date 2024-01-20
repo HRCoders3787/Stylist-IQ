@@ -5,6 +5,8 @@ import android.os.Parcelable;
 
 import androidx.annotation.NonNull;
 
+import com.example.stylistiq.OnDataLoadedListener;
+
 public class ClothesModel {
 
     String clothID;
@@ -12,6 +14,8 @@ public class ClothesModel {
     int clothColour;
     String ClothType;
     String uploadDate;
+
+    private OnDataLoadedListener onDataLoadedListener;
 
     public ClothesModel() {
     }
@@ -64,5 +68,10 @@ public class ClothesModel {
         this.ClothType = ClothType;
     }
 
+
+    public void setOnDataLoadedListener(OnDataLoadedListener listener)
+    {
+        this.onDataLoadedListener = listener;
+    }
 
 }

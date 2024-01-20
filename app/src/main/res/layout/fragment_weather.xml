@@ -138,6 +138,11 @@
                 android:horizontalSpacing="12dp"
                 android:numColumns="2"
                 android:verticalSpacing="10dp" />
+<!--            <TextView-->
+<!--                android:id="@+id/debugText"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                />-->
 
         </LinearLayout>
 

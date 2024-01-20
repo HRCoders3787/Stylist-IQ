@@ -36,6 +36,7 @@ import com.example.stylistiq.Adapters.RecyclerAdapter.RecyclerAdapter;
 import com.example.stylistiq.DashBoard.ui.closet.Wardrobe;
 import com.example.stylistiq.DashBoard.ui.closet.WardrobeOutfitSuggestions;
 import com.example.stylistiq.Models.ClothesModel;
+import com.example.stylistiq.Models.SuggestionModel;
 import com.example.stylistiq.R;
 import com.example.stylistiq.Session.SessionManager;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -90,6 +91,7 @@ public class Home extends Fragment {
     private final static int REQUEST_CODE = 100;
     DecimalFormat df = new DecimalFormat("#.#");
     ArrayList<ClothesModel> allClothData;
+    ArrayList<SuggestionModel> suggestionData;
     RecyclerAdapter recyclerAdapter;
     SuggestionAdapter suggestionAdapter;
     GridView suggestions_grid_view;
@@ -156,7 +158,9 @@ public class Home extends Fragment {
         reference = database.getReference();
 
         allClothData = new ArrayList<>();
+        suggestionData = new ArrayList<>();
         getAllClothesImages();
+        getSuggestionsImages();
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
@@ -164,12 +168,13 @@ public class Home extends Fragment {
         recyclerAdapter = new RecyclerAdapter(allClothData, getContext());
         closet_recView.setAdapter(recyclerAdapter);
 
-        suggestionAdapter = new SuggestionAdapter(getContext(), allClothData);
+        suggestionAdapter = new SuggestionAdapter(getContext(), suggestionData);
         suggestions_grid_view.setAdapter(suggestionAdapter);
 
 
         getLastLocation();
     }
+
 
     private void getLastLocation() {
         if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
@@ -274,12 +279,36 @@ public class Home extends Fragment {
                             }
                         }
                         recyclerAdapter.notifyDataSetChanged();
-                        suggestionAdapter.notifyDataSetChanged();
                     }
 
                     @Override
                     public void onCancelled(@NonNull DatabaseError error) {
                         allClothData.clear();
+                    }
+                });
+    }
+
+    private void getSuggestionsImages() {
+        reference.child("Suggestion")
+                .child(_phone)
+                .addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        if (snapshot.exists())
+                        {
+                            suggestionData.clear();
+                            for (DataSnapshot snapshot1 : snapshot.getChildren())
+                            {
+                                SuggestionModel suggestionModel = snapshot1.getValue(SuggestionModel.class);
+                                suggestionData.add(suggestionModel);
+                            }
+                            suggestionAdapter.notifyDataSetChanged();
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
                     }
                 });
     }

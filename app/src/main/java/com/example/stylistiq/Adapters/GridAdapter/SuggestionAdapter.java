@@ -13,6 +13,7 @@ import androidx.cardview.widget.CardView;
 
 import com.bumptech.glide.Glide;
 import com.example.stylistiq.Models.ClothesModel;
+import com.example.stylistiq.Models.SuggestionModel;
 import com.example.stylistiq.R;
 
 import java.util.ArrayList;
@@ -22,18 +23,17 @@ import java.util.Map;
 public class SuggestionAdapter extends BaseAdapter {
 
     Context context;
-
-    ArrayList<ClothesModel> allClothData;
+    ArrayList<SuggestionModel> suggestionData;
     LayoutInflater inflater;
 
-    public SuggestionAdapter(Context context, ArrayList<ClothesModel> allClothData) {
+    public SuggestionAdapter(Context context, ArrayList<SuggestionModel> suggestionData) {
         this.context = context;
-        this.allClothData = allClothData;
+        this.suggestionData = suggestionData;
     }
 
     @Override
     public int getCount() {
-        return allClothData.size();
+        return suggestionData.size();
     }
 
     @Override
@@ -54,17 +54,19 @@ public class SuggestionAdapter extends BaseAdapter {
         if (convertView == null) {
             convertView = inflater.inflate(R.layout.suggestion_imageset_cardview, null);
         }
-        ImageView imageView = convertView.findViewById(R.id.clothes);
-        TextView clothClass = convertView.findViewById(R.id.clothClass);
-        TextView clothDate = convertView.findViewById(R.id.clothDate);
+        ImageView imageView = convertView.findViewById(R.id.topClothes);
+        ImageView imageView2 = convertView.findViewById(R.id.bottomClothes);
+
+        TextView suggestionDate = convertView.findViewById(R.id.clothDate);
 
         CardView clothColor1 = convertView.findViewById(R.id.clothColor1);
-//        CardView clothColor2 = convertView.findViewById(R.id.clothColor2);
+        CardView clothColor2 = convertView.findViewById(R.id.clothColor2);
 
-        Glide.with(context).load(allClothData.get(position).getClotheImageUrl()).into(imageView);
-        clothClass.setText(allClothData.get(position).getClothType());
-        clothDate.setText(allClothData.get(position).getUploadDate());
-        clothColor1.setCardBackgroundColor(allClothData.get(position).getClothColour());
+        Glide.with(context).load(suggestionData.get(position).getTopImg()).into(imageView);
+        Glide.with(context).load(suggestionData.get(position).getBottomImg()).into(imageView2);
+        suggestionDate.setText(suggestionData.get(position).getSuggestionDate());
+        clothColor1.setCardBackgroundColor(suggestionData.get(position).getTopColor());
+        clothColor2.setCardBackgroundColor(suggestionData.get(position).getBottomColor());
 
         return convertView;
     }

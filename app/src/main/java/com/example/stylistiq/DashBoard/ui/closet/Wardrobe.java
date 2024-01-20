@@ -27,8 +27,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.palette.graphics.Palette;
 
 import com.example.stylistiq.Adapters.GridAdapter.GridAdapter;
+import com.example.stylistiq.DashBoard.suggestionAlgo.Algorithm;
+import com.example.stylistiq.DashBoard.suggestionAlgo.DataBase;
 import com.example.stylistiq.ImageUtils;
 import com.example.stylistiq.Models.ClothesModel;
+import com.example.stylistiq.OnDataLoadedListener;
 import com.example.stylistiq.R;
 import com.example.stylistiq.Session.SessionManager;
 import com.example.stylistiq.databinding.ActivityMainBinding;
@@ -50,22 +53,28 @@ import com.google.firebase.storage.UploadTask;
 import org.tensorflow.lite.DataType;
 import org.tensorflow.lite.support.tensorbuffer.TensorBuffer;
 
+import java.lang.reflect.Array;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import java.util.Set;
 
-public class Wardrobe extends AppCompatActivity {
+public class Wardrobe extends AppCompatActivity implements OnDataLoadedListener {
 
     String[] item = {"All", "Shirt", "Formal Pants", "Trouser", "Jeans", "TShirt"};
     String[] parseClothData = new String[6];
+
+
     AutoCompleteTextView category;
     ArrayAdapter<String> adapterItems;
     ActivityMainBinding binding;
@@ -90,11 +99,21 @@ public class Wardrobe extends AppCompatActivity {
     DatabaseReference reference;
     GridAdapter gridAdapter;
     ArrayList<ClothesModel> allClothData;
+    //    Algorithm suggestionAlgo = new Algorithm(getApplicationContext());
+    List<String> topListItems = Arrays.asList("Shirt", "TShirt");
+    List<String> bottomListItems = Arrays.asList("Jeans", "Trouser", "Formal Pants");
+
+    Algorithm algorithm;
+    ArrayList<Integer> bottomColor = new ArrayList<>();
+    OnDataLoadedListener onDataLoadedListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.wardrobe);
+
+        onDataLoadedListener = this;
+        algorithm = new Algorithm(getApplicationContext());
 
         initialiseViews();
     }
@@ -251,8 +270,10 @@ public class Wardrobe extends AppCompatActivity {
     //FUNCTION TO INSERT VALUES TO REALTIME DATABASE
     public void insertRealtimeDatabase(String imageUrl, String clothID, String imageClass, int clothColour) {
         String UploadDate = getCurrentDate();
+
         ClothesModel clothesModel = new ClothesModel(clothID, imageUrl, clothColour, imageClass, UploadDate);
         reference.child("Closet").child(_phone)
+
                 .child("Category").child(imageClass)
                 .child(clothID)
                 .setValue(clothesModel)
@@ -260,12 +281,72 @@ public class Wardrobe extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         if (task.isSuccessful()) {
-//
+                            if (topListItems.contains(imageClass)) {
+                                getBottomColors(clothColour, imageUrl);
+
+                            }
                         } else {
                             Toast.makeText(getApplicationContext(), "Not Successfully realtime updated", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
+    }
+
+    private void getBottomColors(int topColor, String topImage) {
+        HashMap<Integer, String> bottomImage = new HashMap<>();
+        reference.child("Closet")
+                .child(_phone).child("Category")
+                .child("Jeans")
+                .addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        if (snapshot.exists()) {
+                            for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                                ClothesModel clothesModel = dataSnapshot.getValue(ClothesModel.class);
+                                bottomColor.add(clothesModel.getClothColour());
+                                bottomImage.put(clothesModel.getClothColour(), clothesModel.getClotheImageUrl());
+                            }
+                            reference.child("Closet")
+                                    .child(_phone).child("Category")
+                                    .child("Trouser")
+                                    .addValueEventListener(new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                            if (snapshot.exists()) {
+                                                for (DataSnapshot dataSnapshot1 : snapshot.getChildren()) {
+                                                    ClothesModel clothesModel = dataSnapshot1.getValue(ClothesModel.class);
+                                                    bottomColor.add(clothesModel.getClothColour());
+                                                    bottomImage.put(clothesModel.getClothColour(), clothesModel.getClotheImageUrl());
+                                                }
+                                                List<Integer> suggestedColors = algorithm.getColorSuggestions(topColor, bottomColor);
+                                                DataBase dataBase = new DataBase
+                                                        (getApplicationContext(), topColor, suggestedColors.get(0),
+                                                                topImage, bottomImage.get(suggestedColors.get(0)));
+                                                if (dataBase.insertToDatabase())
+                                                {
+                                                    Toast.makeText(Wardrobe.this, "INSERTED SUGGESTIONS", Toast.LENGTH_SHORT).show();
+                                                }
+                                                else {
+                                                    Toast.makeText(Wardrobe.this, "INSERTED SUGGESTIONS FAILED", Toast.LENGTH_SHORT).show();
+                                                }
+                                            }
+//
+                                        }
+
+                                        @Override
+                                        public void onCancelled(@NonNull DatabaseError error) {
+
+                                        }
+                                    });
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+
     }
 
 
@@ -521,4 +602,8 @@ public class Wardrobe extends AppCompatActivity {
                 });
     }
 
+    @Override
+    public void onDataLoader(List<Integer> bottomColor) {
+        Toast.makeText(this, "BOTTOM " + bottomColor.toString(), Toast.LENGTH_SHORT).show();
+    }
 }
