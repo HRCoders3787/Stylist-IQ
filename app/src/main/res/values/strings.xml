@@ -76,6 +76,8 @@
     <string name="stats">Statistics</string>
     <string name="see_all"><u>See all</u></string>
     <string name="outfit_suggest">Outfit suggestions</string>
+    <string name="save">Save</string>
+    <string name="remove">Remove</string>
 
     <!--    Closet string values-->
     <string name="add">Add item</string>

@@ -2,12 +2,18 @@ package com.example.stylistiq.DashBoard.ui.closet;
 
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.ImageButton;
+import android.widget.PopupWindow;
+import android.widget.TextView;
 
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
@@ -26,6 +32,7 @@ public class Closet extends Fragment {
 
     private DatePickerDialog datePickerDialog;
     private Button dateButton;
+    private PopupWindow popupWindow;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -84,10 +91,44 @@ public class Closet extends Fragment {
     private void initializeViews(View view) {
 
         dateButton = view.findViewById(R.id.datePickerButton);
+        Button upload_top = view.findViewById(R.id.upload_top);
+        Button upload_bottom = view.findViewById(R.id.upload_bottom);
+
         dateButton.setText(getTodaysDate());
         initDatePicker();
         dateButton.setOnClickListener(v -> datePickerDialog.show());
+        upload_top.setOnClickListener(v -> {
+            showPopupWindow(v);
+        });
+    }
 
+    private void showPopupWindow(View v) {
+
+        // Inflate the popup layout
+        View popupView = getLayoutInflater().inflate(R.layout.upperwear_popup, null);
+
+        // Create the PopupWindow
+        popupWindow = new PopupWindow(popupView, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, true);
+
+        // Set background color to transparent
+        popupWindow.setBackgroundDrawable(new ColorDrawable(Color.BLACK));
+
+        // Show the popup window at the center of the anchor view
+        popupWindow.showAtLocation(v, Gravity.CENTER, 0, 0);
+
+        // Set up UI elements in the popup
+        TextView upper_bottom_txt = popupView.findViewById(R.id.upper_bottom_txt);
+        ImageButton close_btn = popupView.findViewById(R.id.close_btn);
+
+        // Set text and click listener
+        upper_bottom_txt.setText("This is a popup window!");
+        close_btn.setOnClickListener(v1 -> {
+            // Close the popup window
+            popupWindow.dismiss();
+        });
+
+        // Show the popup window
+        popupWindow.showAsDropDown(v);
     }
 
     private String getTodaysDate() {

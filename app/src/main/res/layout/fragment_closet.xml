@@ -277,6 +277,15 @@
 
             </androidx.cardview.widget.CardView>
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="24dp"
+                android:fontFamily="@font/bevietnam_pro_semibold"
+                android:text="@string/outfit_suggest"
+                android:textColor="@color/black"
+                android:textSize="20sp" />
 
             <GridView
                 android:id="@+id/weather_suggestions_grid_view"
