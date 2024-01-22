@@ -92,4 +92,11 @@
     <string name="cloud">Cloudy:</string>
     <string name="weather_suggest">Weather based suggestions</string>
 
+<!--    Schedule fragment strings-->
+    <string name="schedule">Schedule outfit</string>
+    <string name="date">Date:</string>
+    <string name="upperwear">Upperwear:</string>
+    <string name="bottomwear">Bottomwear:</string>
+    <string name="select_img">Select</string>
+
 </resources>

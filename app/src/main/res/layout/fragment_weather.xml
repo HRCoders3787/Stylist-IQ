@@ -72,7 +72,7 @@
                             android:layout_weight="1"
                             android:fontFamily="@font/be_vietnam_pro_medium"
                             android:fontFeatureSettings="pnum, lnum"
-                            android:gravity="center_horizontal|center_vertical"
+                            android:gravity="center_vertical"
                             android:textColor="@color/textColor"
                             android:textSize="40sp" />
 

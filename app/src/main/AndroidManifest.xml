@@ -18,6 +18,9 @@
         android:theme="@style/Theme.StylistIQ"
         tools:targetApi="31">
         <activity
+            android:name=".DashBoard.ui.suggestion.OutfitSuggestions"
+            android:exported="false" />
+        <activity
             android:name=".DashBoard.ui.closet.WardrobeOutfitSuggestions"
             android:exported="false" />
         <activity
