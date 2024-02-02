@@ -2,35 +2,32 @@ package com.example.stylistiq.Adapters.GridAdapter;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.cardview.widget.CardView;
 
 import com.bumptech.glide.Glide;
-import com.example.stylistiq.DashBoard.ui.suggestion.OutfitSuggestions;
+import com.example.stylistiq.DashBoard.ui.closet.WardrobeOutfitSuggestions;
 import com.example.stylistiq.Models.ClothesModel;
 import com.example.stylistiq.Models.SuggestionModel;
 import com.example.stylistiq.R;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
-public class SuggestionAdapter extends BaseAdapter {
+public class GridAdapter2 extends BaseAdapter {
 
     Context context;
     ArrayList<SuggestionModel> suggestionData;
     LayoutInflater inflater;
-    String gridOpenFrom;
+    //    String gridOpenFrom;
+    String[] parseData = new String[7];
 
-    public SuggestionAdapter(Context context, ArrayList<SuggestionModel> suggestionData) {
+    public GridAdapter2(Context context, ArrayList<SuggestionModel> suggestionData) {
         this.context = context;
         this.suggestionData = suggestionData;
 
@@ -60,8 +57,6 @@ public class SuggestionAdapter extends BaseAdapter {
             convertView = inflater.inflate(R.layout.suggestion_imageset_cardview, null);
         }
 
-
-
         ImageView imageView = convertView.findViewById(R.id.topClothes);
         ImageView imageView2 = convertView.findViewById(R.id.bottomClothes);
 
@@ -76,8 +71,26 @@ public class SuggestionAdapter extends BaseAdapter {
         clothColor1.setCardBackgroundColor(suggestionData.get(position).getTopColor());
         clothColor2.setCardBackgroundColor(suggestionData.get(position).getBottomColor());
 
+        convertView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//                Intent intent = new Intent(context, WardrobeOutfitSuggestions.class);
+//
+//                parseData[0] = suggestionData.get(position).getTopImg();
+//                parseData[1] = suggestionData.get(position).getBottomImg();
+//                parseData[2] = suggestionData.get(position).getSuggestionDate();
+//                parseData[3] = String.valueOf(suggestionData.get(position).getTopColor());
+//                parseData[4] = String.valueOf(suggestionData.get(position).getBottomColor());
+//
+//
+//                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                intent.putExtra("SuggestionData", parseData);
+//                context.startActivity(intent);
+            }
+        });
+
         return convertView;
     }
-
-
 }
+
+//

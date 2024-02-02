@@ -22,22 +22,22 @@ public class WardrobeOutfitSuggestions extends AppCompatActivity {
 
 
     ArrayList<ClothesModel> allClothList;
-    String[] receivedData = new String[5];
+    String[] receivedData = new String[6];
     ImageButton back_btn;
     ImageView cloth_img;
     TextView categoryTxt, date_added_tv, color_tv;
     View clothColor;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.wardrobe_outfit_suggestions);
-        Intent intent = getIntent();
 
+        Intent intent = getIntent();
+        receivedData = intent.getStringArrayExtra("clothData");
         initialiseViews();
 
-        receivedData = intent.getStringArrayExtra("SuggestionData");
-        Toast.makeText(this, "1st element : " + receivedData[0], Toast.LENGTH_SHORT).show();
 
 
     }
@@ -51,6 +51,12 @@ public class WardrobeOutfitSuggestions extends AppCompatActivity {
         color_tv = findViewById(R.id.color_tv);
 
         back_btn.setOnClickListener(v -> finish());
+
+        Glide.with(getApplicationContext()).load(receivedData[1]).into(cloth_img);
+        clothColor.setBackgroundColor(Integer.parseInt(receivedData[3]));
+        categoryTxt.setText(receivedData[2]);
+//        color_tv.setText(String.format("#%06X", 0xFFFFFF & Integer.parseInt(receivedData[3])));
+        date_added_tv.setText(receivedData[4]);
 
 
     }

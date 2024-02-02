@@ -38,6 +38,7 @@ import androidx.fragment.app.Fragment;
 
 import com.bumptech.glide.Glide;
 import com.example.stylistiq.Adapters.GridAdapter.ClothSelectionAdapter;
+import com.example.stylistiq.Adapters.GridAdapter.ScheduleGridViewAdapter;
 import com.example.stylistiq.Adapters.GridAdapter.SuggestionAdapter;
 import com.example.stylistiq.BroadCast.broadcast_receiver;
 import com.example.stylistiq.Models.ClosetModel;
@@ -93,7 +94,7 @@ public class Closet extends Fragment {
     SessionManager sessionManager;
     HashMap<String, String> userDetails;
     GridView suggestionGridView, ClosetGridView;
-    SuggestionAdapter suggestionAdapter;
+    ScheduleGridViewAdapter suggestionAdapter;
     FloatingActionButton setReminder;
     PendingIntent pendingIntent;
     AlarmManager alarmManager;
@@ -176,6 +177,7 @@ public class Closet extends Fragment {
 
         getSuggestionsImages();
 
+
         upload_top.setOnClickListener(v -> {
             showPopupWindow(v, "top");
             selectionFrom = "Wardrobe";
@@ -184,21 +186,21 @@ public class Closet extends Fragment {
         upload_bottom.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 showPopupWindow(v, "bottom");
             }
         });
 
-        suggestionAdapter = new SuggestionAdapter(getContext(), suggestionData);
+        suggestionAdapter = new ScheduleGridViewAdapter(getContext(), suggestionData);
         suggestionGridView.setAdapter(suggestionAdapter);
 
-        suggestionGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                selectionFrom = "Suggestion";
-                Toast.makeText(getContext(), "POSITION : " + position, Toast.LENGTH_SHORT).show();
-            }
-        });
+
+//        suggestionGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                selectionFrom = "Suggestion";
+//                Toast.makeText(getContext(), "POSITION : " + position, Toast.LENGTH_SHORT).show();
+//            }
+//        });
         setReminder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -213,6 +215,15 @@ public class Closet extends Fragment {
                 }
             }
         });
+
+//        if (suggestionAdapter.selectionFrom != null && suggestionAdapter.selectionFrom.length() > 0) {
+//            selectionFrom = suggestionAdapter.selectionFrom;
+//            Glide.with(getContext()).load(suggestionData.get(suggestionAdapter.POSITION).getTopImg()).into(topImage);
+//            Glide.with(getContext()).load(suggestionData.get(suggestionAdapter.POSITION).getBottomImg()).into(bottomImage);
+//        }
+
+
+
     }
 
     private void insertScheduleData() {

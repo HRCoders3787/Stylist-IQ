@@ -11,6 +11,7 @@ import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+import com.example.stylistiq.Adapters.GridAdapter.GridAdapter2;
 import com.example.stylistiq.Adapters.GridAdapter.SuggestionAdapter;
 import com.example.stylistiq.DashBoard.ui.closet.WardrobeOutfitSuggestions;
 import com.example.stylistiq.Models.SuggestionModel;
@@ -30,21 +31,18 @@ public class OutfitSuggestions extends AppCompatActivity {
     ImageButton back_btn;
     GridView gridView;
     ArrayList<SuggestionModel> suggestionData;
-    SuggestionAdapter suggestionAdapter;
+    GridAdapter2 suggestionAdapter;
     FirebaseDatabase database;
     DatabaseReference reference;
     HashMap<String, String> userDetails;
     String _phone;
     SessionManager sessionManager;
 
-    String[] parseData = new String[5];
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.outfit_suggestions);
-
 
         gridView = findViewById(R.id.gridView);
         suggestionData = new ArrayList<>();
@@ -65,23 +63,8 @@ public class OutfitSuggestions extends AppCompatActivity {
 
         getSuggestionData();
 
-        suggestionAdapter = new SuggestionAdapter(getApplicationContext(), suggestionData);
+        suggestionAdapter = new GridAdapter2(getApplicationContext(), suggestionData);
         gridView.setAdapter(suggestionAdapter);
-
-        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(OutfitSuggestions.this, "POSITION : " + position, Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(getApplicationContext(), WardrobeOutfitSuggestions.class);
-                parseData[0] = suggestionData.get(position).getTopImg();
-                parseData[1] = suggestionData.get(position).getBottomImg();
-                parseData[2] = suggestionData.get(position).getSuggestionDate();
-                parseData[3] = String.valueOf(suggestionData.get(position).getTopColor());
-                parseData[4] = String.valueOf(suggestionData.get(position).getBottomColor());
-                intent.putExtra("SuggestionData", parseData);
-                startActivity(intent);
-            }
-        });
 
     }
 
