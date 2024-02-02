@@ -5,6 +5,24 @@ public class SuggestionModel {
     int TopColor;
     int BottomColor;
     String topImg;
+    String topType;
+    String bottomType;
+
+    public String getTopType() {
+        return topType;
+    }
+
+    public void setTopType(String topType) {
+        this.topType = topType;
+    }
+
+    public String getBottomType() {
+        return bottomType;
+    }
+
+    public void setBottomType(String bottomType) {
+        this.bottomType = bottomType;
+    }
 
     String suggestionDate;
     String BottomImg;
@@ -12,14 +30,27 @@ public class SuggestionModel {
     public SuggestionModel() {
     }
 
-    public SuggestionModel(String suggestionID, int topColor, int bottomColor, String topImg, String bottomImg, String suggestionDate) {
+    public SuggestionModel(String suggestionID, int topColor, int bottomColor, String topImg, String suggestionDate, String bottomImg) {
         this.suggestionID = suggestionID;
-        this.TopColor = topColor;
-        this.BottomColor = bottomColor;
+        TopColor = topColor;
+        BottomColor = bottomColor;
         this.topImg = topImg;
-        this.BottomImg = bottomImg;
+
+
         this.suggestionDate = suggestionDate;
+        BottomImg = bottomImg;
     }
+
+//    public SuggestionModel(String suggestionID, int topColor, int bottomColor, String topImg, String bottomImg, String suggestionDate) {
+//        this.suggestionID = suggestionID;
+//        this.TopColor = topColor;
+//        this.BottomColor = bottomColor;
+//        this.topImg = topImg;
+//        this.BottomImg = bottomImg;
+//        this.suggestionDate = suggestionDate;
+//        this.topType = topType;
+//        this.bottomType = bottomType;
+//    }
 
     public String getSuggestionDate() {
         return suggestionDate;

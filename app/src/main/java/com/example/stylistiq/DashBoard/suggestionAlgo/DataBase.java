@@ -19,6 +19,8 @@ import java.util.HashMap;
 import java.util.Random;
 
 public class DataBase {
+    String bottomType;
+    String toptype;
     FirebaseDatabase database;
     DatabaseReference reference;
     SessionManager sessionManager;
@@ -37,6 +39,7 @@ public class DataBase {
         this.topImg = topImg;
         this.bottomImg = bottomImg;
 //        this.imageClass = imageClass;
+
     }
 
     public boolean insertToDatabase() {

@@ -3,6 +3,7 @@ package com.example.stylistiq.DashBoard.ui.closet;
 import static android.content.Context.ALARM_SERVICE;
 
 
+import android.annotation.SuppressLint;
 import android.app.AlarmManager;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
@@ -151,7 +152,7 @@ public class Closet extends Fragment {
         dateButton = view.findViewById(R.id.datePickerButton);
         Button upload_top = view.findViewById(R.id.upload_top);
         Button upload_bottom = view.findViewById(R.id.upload_bottom);
-        suggestionGridView = view.findViewById(R.id.suggestionGridView);
+//        suggestionGridView = view.findViewById(R.id.suggestionGridView);
         topImage = view.findViewById(R.id.topImage);
         bottomImage = view.findViewById(R.id.bottomImage);
         setReminder = view.findViewById(R.id.setReminder);
@@ -175,7 +176,7 @@ public class Closet extends Fragment {
         allDataList = new ArrayList<>();
         suggestionData = new ArrayList<>();
 
-        getSuggestionsImages();
+//        getSuggestionsImages();
 
 
         upload_top.setOnClickListener(v -> {
@@ -190,21 +191,14 @@ public class Closet extends Fragment {
             }
         });
 
-        suggestionAdapter = new ScheduleGridViewAdapter(getContext(), suggestionData);
-        suggestionGridView.setAdapter(suggestionAdapter);
+//        suggestionAdapter = new ScheduleGridViewAdapter(getContext(), suggestionData);
+//        suggestionGridView.setAdapter(suggestionAdapter);
 
 
-//        suggestionGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                selectionFrom = "Suggestion";
-//                Toast.makeText(getContext(), "POSITION : " + position, Toast.LENGTH_SHORT).show();
-//            }
-//        });
+
         setReminder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 if (occasionName.getText().length() > 0) {
                     if (topImage.getDrawable() != null && bottomImage.getDrawable() != null) {
                         insertScheduleData();
@@ -215,13 +209,6 @@ public class Closet extends Fragment {
                 }
             }
         });
-
-//        if (suggestionAdapter.selectionFrom != null && suggestionAdapter.selectionFrom.length() > 0) {
-//            selectionFrom = suggestionAdapter.selectionFrom;
-//            Glide.with(getContext()).load(suggestionData.get(suggestionAdapter.POSITION).getTopImg()).into(topImage);
-//            Glide.with(getContext()).load(suggestionData.get(suggestionAdapter.POSITION).getBottomImg()).into(bottomImage);
-//        }
-
 
 
     }
@@ -528,6 +515,7 @@ public class Closet extends Fragment {
                                 suggestionData.add(suggestionModel);
                             }
                             suggestionAdapter.notifyDataSetChanged();
+
                         }
                     }
 

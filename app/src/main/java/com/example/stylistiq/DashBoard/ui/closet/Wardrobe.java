@@ -322,11 +322,9 @@ public class Wardrobe extends AppCompatActivity implements OnDataLoadedListener 
                                                 DataBase dataBase = new DataBase
                                                         (getApplicationContext(), topColor, suggestedColors.get(0),
                                                                 topImage, bottomImage.get(suggestedColors.get(0)));
-                                                if (dataBase.insertToDatabase())
-                                                {
+                                                if (dataBase.insertToDatabase()) {
                                                     Toast.makeText(Wardrobe.this, "INSERTED SUGGESTIONS", Toast.LENGTH_SHORT).show();
-                                                }
-                                                else {
+                                                } else {
                                                     Toast.makeText(Wardrobe.this, "INSERTED SUGGESTIONS FAILED", Toast.LENGTH_SHORT).show();
                                                 }
                                             }
@@ -509,9 +507,6 @@ public class Wardrobe extends AppCompatActivity implements OnDataLoadedListener 
                             .compress(100)
                             .maxResultSize(224, 224)
                             .start();
-                    return true;
-                } else if (item.getItemId() == R.id.menu_select) {
-                    // Handle "Select" action
                     return true;
                 }
                 return false;
