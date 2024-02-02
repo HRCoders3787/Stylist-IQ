@@ -22,7 +22,7 @@ public class WardrobeOutfitSuggestions extends AppCompatActivity {
 
 
     ArrayList<ClothesModel> allClothList;
-    String receivedData[] = new String[6];
+    String[] receivedData = new String[5];
     ImageButton back_btn;
     ImageView cloth_img;
     TextView categoryTxt, date_added_tv, color_tv;
@@ -36,13 +36,9 @@ public class WardrobeOutfitSuggestions extends AppCompatActivity {
 
         initialiseViews();
 
-        receivedData = intent.getStringArrayExtra("clothData");
-        Toast.makeText(this, "RECEIVED DATA SIZE: " + receivedData.length, Toast.LENGTH_SHORT).show();
-        categoryTxt.setText(receivedData[2]);
-        date_added_tv.setText(receivedData[4]);
-        Glide.with(WardrobeOutfitSuggestions.this).load(receivedData[1]).into(cloth_img);
-        clothColor.setBackgroundColor(Integer.parseInt(receivedData[3]));
-        color_tv.setText(receivedData[5]);
+        receivedData = intent.getStringArrayExtra("SuggestionData");
+        Toast.makeText(this, "1st element : " + receivedData[0], Toast.LENGTH_SHORT).show();
+
 
     }
 

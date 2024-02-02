@@ -1,6 +1,7 @@
 package com.example.stylistiq.Adapters.GridAdapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,10 +9,12 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.cardview.widget.CardView;
 
 import com.bumptech.glide.Glide;
+import com.example.stylistiq.DashBoard.ui.suggestion.OutfitSuggestions;
 import com.example.stylistiq.Models.ClothesModel;
 import com.example.stylistiq.Models.SuggestionModel;
 import com.example.stylistiq.R;
@@ -25,10 +28,12 @@ public class SuggestionAdapter extends BaseAdapter {
     Context context;
     ArrayList<SuggestionModel> suggestionData;
     LayoutInflater inflater;
+    String gridOpenFrom;
 
     public SuggestionAdapter(Context context, ArrayList<SuggestionModel> suggestionData) {
         this.context = context;
         this.suggestionData = suggestionData;
+
     }
 
     @Override
@@ -54,6 +59,7 @@ public class SuggestionAdapter extends BaseAdapter {
         if (convertView == null) {
             convertView = inflater.inflate(R.layout.suggestion_imageset_cardview, null);
         }
+
         ImageView imageView = convertView.findViewById(R.id.topClothes);
         ImageView imageView2 = convertView.findViewById(R.id.bottomClothes);
 

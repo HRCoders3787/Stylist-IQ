@@ -35,6 +35,7 @@ import com.example.stylistiq.Adapters.GridAdapter.SuggestionAdapter;
 import com.example.stylistiq.Adapters.RecyclerAdapter.RecyclerAdapter;
 import com.example.stylistiq.DashBoard.ui.closet.Wardrobe;
 import com.example.stylistiq.DashBoard.ui.closet.WardrobeOutfitSuggestions;
+import com.example.stylistiq.DashBoard.ui.suggestion.OutfitSuggestions;
 import com.example.stylistiq.Models.ClothesModel;
 import com.example.stylistiq.Models.SuggestionModel;
 import com.example.stylistiq.R;
@@ -102,6 +103,8 @@ public class Home extends Fragment {
     String parseClothData[] = new String[6];
     SessionManager sessionManager;
 
+    MaterialButton see_all_btn2;
+
     public Home() {
         // Required empty public constructor
     }
@@ -149,7 +152,7 @@ public class Home extends Fragment {
         closet_recView = view.findViewById(R.id.closet_recView);
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(requireContext());
         suggestions_grid_view = view.findViewById(R.id.suggestions_grid_view);
-
+        see_all_btn2 = view.findViewById(R.id.see_all_btn2);
 
         sessionManager = new SessionManager(getContext(), "userLoginSession");
         userDetails = sessionManager.getUserDetailsFromSession();
@@ -172,9 +175,14 @@ public class Home extends Fragment {
         suggestions_grid_view.setAdapter(suggestionAdapter);
 
 
+        see_all_btn2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getContext(), OutfitSuggestions.class));
+            }
+        });
         getLastLocation();
     }
-
 
     private void getLastLocation() {
         if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
@@ -294,11 +302,9 @@ public class Home extends Fragment {
                 .addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        if (snapshot.exists())
-                        {
+                        if (snapshot.exists()) {
                             suggestionData.clear();
-                            for (DataSnapshot snapshot1 : snapshot.getChildren())
-                            {
+                            for (DataSnapshot snapshot1 : snapshot.getChildren()) {
                                 SuggestionModel suggestionModel = snapshot1.getValue(SuggestionModel.class);
                                 suggestionData.add(suggestionModel);
                             }

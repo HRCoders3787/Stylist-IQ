@@ -153,22 +153,6 @@ public class Weather extends Fragment {
 
     }
 
-//    private void getColorsANDImages(ArrayList<ClothesModel> data) {
-//        String type = null;
-//        if (!data.isEmpty()) {
-//            for (ClothesModel clothesModel : data) {
-//                type += clothesModel.getClothType() + "\n";
-//                if (clothesModel.getClothType() == "Shirt") {
-//                    if (alreadyPresentSuggestion()) {
-//
-//                    }
-//                }
-//            }
-//            debugText.setText(type);
-//        } else {
-//            Toast.makeText(getContext(), "EMPTY ALL CLOTHES DATA", Toast.LENGTH_SHORT).show();
-//        }
-//    }
 
     private boolean alreadyPresentSuggestion() {
         boolean flag = false;
