@@ -129,7 +129,7 @@ public class Wardrobe extends AppCompatActivity implements OnDataLoadedListener 
         if (bitmap != null) {
             trialImage.setImageBitmap(bitmap);
             ImageClass = classifyImage(bitmap);
-            Toast.makeText(getApplicationContext(), "Image class : " + ImageClass, Toast.LENGTH_SHORT).show();
+
             filenameCreator(uri, ImageClass);
         } else {
             Toast.makeText(getApplicationContext(), "Not able to upload", Toast.LENGTH_SHORT).show();

@@ -23,6 +23,7 @@ import com.example.stylistiq.R;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.RecyclerViewHolder> {
@@ -35,6 +36,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Recycl
         this.allClothData = allClothData;
         this.context = context;
     }
+
 
     @NonNull
     @Override
@@ -51,14 +53,17 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Recycl
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, WardrobeOutfitSuggestions.class);
-                parseClothData[0] = allClothData.get(position).getClothID();
-                parseClothData[1] = allClothData.get(position).getClotheImageUrl();
-                parseClothData[2] = allClothData.get(position).getClothType();
-                parseClothData[3] = String.valueOf(allClothData.get(position).getClothColour());
-                parseClothData[4] = allClothData.get(position).getUploadDate();
-                parseClothData[5] = getColorName(allClothData.get(position).getClothColour());
-                intent.putExtra("clothData", parseClothData);
-                context.startActivity(intent);
+                if (!allClothData.isEmpty()) {
+                    parseClothData[0] = allClothData.get(position).getClothID();
+                    parseClothData[1] = allClothData.get(position).getClotheImageUrl();
+                    parseClothData[2] = allClothData.get(position).getClothType();
+                    parseClothData[3] = String.valueOf(allClothData.get(position).getClothColour());
+                    parseClothData[4] = allClothData.get(position).getUploadDate();
+                    parseClothData[5] = getColorName(allClothData.get(position).getClothColour());
+                    intent.putExtra("clothData", parseClothData);
+                    context.startActivity(intent);
+                }
+
             }
         });
     }
@@ -111,12 +116,9 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Recycl
 
         public RecyclerViewHolder(@NonNull View itemView) {
             super(itemView);
-
             clothes = itemView.findViewById(R.id.clothes);
             clothClass = itemView.findViewById(R.id.clothClass);
             clothDate = itemView.findViewById(R.id.clothDate);
-
-
         }
 
         void setRecyclerData(ClothesModel clothesModel) {
@@ -124,7 +126,6 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Recycl
             clothClass.setText(clothesModel.getClothType());
             clothDate.setText(clothesModel.getUploadDate());
         }
-
 
     }
 

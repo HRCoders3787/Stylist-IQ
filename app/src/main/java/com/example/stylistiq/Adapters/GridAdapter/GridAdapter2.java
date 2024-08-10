@@ -1,5 +1,7 @@
 package com.example.stylistiq.Adapters.GridAdapter;
 
+import static androidx.core.content.ContextCompat.startActivity;
+
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -8,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.cardview.widget.CardView;
 
@@ -15,6 +18,7 @@ import com.bumptech.glide.Glide;
 import com.example.stylistiq.DashBoard.ui.closet.WardrobeOutfitSuggestions;
 import com.example.stylistiq.Models.ClothesModel;
 import com.example.stylistiq.Models.SuggestionModel;
+import com.example.stylistiq.MultipleOutfitSuggestion;
 import com.example.stylistiq.R;
 
 import java.util.ArrayList;
@@ -74,18 +78,19 @@ public class GridAdapter2 extends BaseAdapter {
         convertView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Intent intent = new Intent(context, WardrobeOutfitSuggestions.class);
-//
-//                parseData[0] = suggestionData.get(position).getTopImg();
-//                parseData[1] = suggestionData.get(position).getBottomImg();
-//                parseData[2] = suggestionData.get(position).getSuggestionDate();
-//                parseData[3] = String.valueOf(suggestionData.get(position).getTopColor());
-//                parseData[4] = String.valueOf(suggestionData.get(position).getBottomColor());
-//
-//
-//                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//                intent.putExtra("SuggestionData", parseData);
-//                context.startActivity(intent);
+                Intent intent = new Intent(context, MultipleOutfitSuggestion.class);
+
+                parseData[0] = suggestionData.get(position).getTopImg();
+                parseData[1] = suggestionData.get(position).getBottomImg();
+                parseData[2] = suggestionData.get(position).getSuggestionDate();
+                parseData[3] = String.valueOf(suggestionData.get(position).getTopColor());
+                parseData[4] = String.valueOf(suggestionData.get(position).getBottomColor());
+                parseData[5] = String.valueOf(suggestionData.get(position).getSuggestionDate());
+                intent.putExtra("SuggestionData", parseData);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                context.startActivity(intent);
+
+                Toast.makeText(context, "Clicked", Toast.LENGTH_SHORT).show();
             }
         });
 

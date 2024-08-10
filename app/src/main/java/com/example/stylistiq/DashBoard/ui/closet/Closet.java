@@ -210,7 +210,6 @@ public class Closet extends Fragment {
             }
         });
 
-
     }
 
     private void insertScheduleData() {

@@ -49,7 +49,7 @@ public class DataBase {
         String UploadDate = getCurrentDate();
         _phone = getSessionDetails();
         String ID = createSuggestionID();
-        SuggestionModel suggestionModel = new SuggestionModel(ID, topColor, BottomColor, topImg, bottomImg, UploadDate);
+        SuggestionModel suggestionModel = new SuggestionModel(ID, topColor, BottomColor, topImg, UploadDate, bottomImg);
         reference.child("Suggestion").child(_phone)
                 .child(ID)
                 .setValue(suggestionModel)

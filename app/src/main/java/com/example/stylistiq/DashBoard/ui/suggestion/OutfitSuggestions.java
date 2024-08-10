@@ -66,6 +66,8 @@ public class OutfitSuggestions extends AppCompatActivity {
         suggestionAdapter = new GridAdapter2(getApplicationContext(), suggestionData);
         gridView.setAdapter(suggestionAdapter);
 
+
+
     }
 
     private void getSuggestionData() {

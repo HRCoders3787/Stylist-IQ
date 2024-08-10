@@ -87,9 +87,9 @@
                                 android:id="@+id/humidity"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:fontFamily="@font/raleway_medium"
                                 android:fontFeatureSettings="pnum, lnum"
                                 android:gravity="center_horizontal|center_vertical"
-                                android:fontFamily="@font/raleway_medium"
                                 android:textColor="@color/textColor"
                                 android:textSize="16sp" />
 
@@ -98,9 +98,9 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="8dp"
+                                android:fontFamily="@font/raleway_medium"
                                 android:fontFeatureSettings="pnum, lnum"
                                 android:gravity="center_horizontal|center_vertical"
-                                android:fontFamily="@font/raleway_medium"
                                 android:textColor="@color/textColor"
                                 android:textSize="16sp" />
 
@@ -118,31 +118,86 @@
 
             </androidx.cardview.widget.CardView>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="24dp"
-                android:fontFamily="@font/bevietnam_pro_semibold"
-                android:text="@string/weather_suggest"
-                android:textColor="@color/black"
-                android:textSize="20sp" />
-
-            <GridView
-                android:id="@+id/weather_suggestions_grid_view"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
+                android:layout_marginTop="24dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:fontFamily="@font/bevietnam_pro_semibold"
+                    android:gravity="center"
+                    android:text="@string/weather_suggest"
+                    android:textColor="@color/black"
+                    android:textSize="16sp" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/weatherSuggestionBtn"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginEnd="20dp"
+                    android:fontFamily="@font/be_vietnam_pro_medium"
+                    android:fontFeatureSettings="pnum, lnum"
+                    android:letterSpacing=".02"
+                    android:text="Generate"
+                    android:textAllCaps="false"
+                    android:textColor="@color/black"
+                    android:textSize="12sp"
+                    app:cornerRadius="100dp"
+                    app:strokeColor="@color/black" />
+
+            </LinearLayout>
+
+
+<!--            SuggestionViews-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginStart="20dp"
                 android:layout_marginTop="14dp"
-                android:layout_marginEnd="20dp"
-                android:horizontalSpacing="12dp"
-                android:numColumns="2"
-                android:verticalSpacing="10dp" />
-<!--            <TextView-->
-<!--                android:id="@+id/debugText"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                />-->
+                android:layout_marginEnd="20dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:fontFamily="@font/bevietnam_pro_semibold"
+                    android:gravity="center"
+                    android:text="@string/top_cloth_suggestion"
+                    android:textColor="@color/black" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/topSuggestion_recView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="14dp"
+                    android:horizontalSpacing="12dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:layout_marginTop="14dp"
+                    android:fontFamily="@font/bevietnam_pro_semibold"
+                    android:gravity="center"
+                    android:text="Bottom Cloth Suggestion"
+                    android:textColor="@color/black" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/bottomSuggestion_recView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="14dp"
+                    android:horizontalSpacing="12dp" />
+            </LinearLayout>
+
 
         </LinearLayout>
 

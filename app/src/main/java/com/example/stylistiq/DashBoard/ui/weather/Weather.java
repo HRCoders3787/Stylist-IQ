@@ -11,7 +11,10 @@ import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,21 +30,28 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.stylistiq.Adapters.GridAdapter.GridAdapter;
 import com.example.stylistiq.Adapters.GridAdapter.SuggestionAdapter;
+import com.example.stylistiq.Adapters.RecyclerAdapter.RecyclerAdapter;
 import com.example.stylistiq.DashBoard.suggestionAlgo.Algorithm;
 import com.example.stylistiq.DashBoard.suggestionAlgo.DataBase;
+import com.example.stylistiq.Dialogs.LoadingAlert;
+import com.example.stylistiq.Interfaces.ListPassing;
+import com.example.stylistiq.Login.Login;
 import com.example.stylistiq.Models.ClothesModel;
 import com.example.stylistiq.Models.SuggestionModel;
 import com.example.stylistiq.R;
 import com.example.stylistiq.Session.SessionManager;
+import com.example.stylistiq.Weather.SuggestionAlgo.WeatherAlgo;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.button.MaterialButton;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import org.checkerframework.checker.units.qual.A;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -77,16 +87,21 @@ public class Weather extends Fragment {
     private String mParam2;
 
     TextView cloudTxt, humidityTxt, addressTxt, tempTxt;
-    GridView weather_suggestions_grid_view;
 
     FirebaseDatabase database;
     DatabaseReference reference;
-    GridAdapter gridAdapter;
+
     ArrayList<SuggestionModel> suggestionData;
-    SuggestionAdapter suggestionAdapter;
+
     HashMap<String, String> userDetails;
     SessionManager sessionManager;
-
+    MaterialButton weatherSuggestionBtn;
+    LoadingAlert loadingAlert;
+    RecyclerView topSuggestion_recView, bottomSuggestion_recView;
+    RecyclerAdapter suggestedTopRecyAdapter;
+    RecyclerAdapter suggestedBottomRecyAdapter;
+    ArrayList<ClothesModel> suggestedTopList;
+    ArrayList<ClothesModel> suggestedBottomList;
 
     public Weather() {
         // Required empty public constructor
@@ -124,6 +139,7 @@ public class Weather extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_weather, container, false);
+
         initialiseViews(view);
         return view;
     }
@@ -133,8 +149,12 @@ public class Weather extends Fragment {
         tempTxt = view.findViewById(R.id.tempTxt);
         humidityTxt = view.findViewById(R.id.humidity);
         addressTxt = view.findViewById(R.id.address);
+        weatherSuggestionBtn = view.findViewById(R.id.weatherSuggestionBtn);
+        topSuggestion_recView = view.findViewById(R.id.topSuggestion_recView);
+        bottomSuggestion_recView = view.findViewById(R.id.bottomSuggestion_recView);
+        loadingAlert = new LoadingAlert(getActivity());
 //        debugText = view.findViewById(R.id.debugText);
-        weather_suggestions_grid_view = view.findViewById(R.id.weather_suggestions_grid_view);
+
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(getContext());
         getLastLocation();
 
@@ -145,11 +165,31 @@ public class Weather extends Fragment {
         database = FirebaseDatabase.getInstance();
         reference = database.getReference();
 
-        suggestionData = new ArrayList<>();
-        getAllSuggestionClothesImages();
 
-        suggestionAdapter = new SuggestionAdapter(getContext(), suggestionData);
-        weather_suggestions_grid_view.setAdapter(suggestionAdapter);
+        suggestedTopList = new ArrayList<>();
+        suggestedBottomList = new ArrayList<>();
+
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+        layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+        topSuggestion_recView.setLayoutManager(layoutManager);
+        suggestedTopRecyAdapter = new RecyclerAdapter(suggestedTopList, getContext());
+        topSuggestion_recView.setAdapter(suggestedTopRecyAdapter);
+
+        LinearLayoutManager layout = new LinearLayoutManager(getContext());
+        layout.setOrientation(layout.HORIZONTAL);
+        bottomSuggestion_recView.setLayoutManager(layout);
+        suggestedBottomRecyAdapter = new RecyclerAdapter(suggestedBottomList, getContext());
+        bottomSuggestion_recView.setAdapter(suggestedBottomRecyAdapter);
+
+
+        weatherSuggestionBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                loadingAlert.startAlertDialog();
+                createWeatherSuggestion();
+            }
+        });
+
 
     }
 
@@ -267,21 +307,102 @@ public class Weather extends Fragment {
     }
 
 
-    public void getAllSuggestionClothesImages() {
-        reference.child("Suggestion")
+    public void createWeatherSuggestion() {
+        List<List<ClothesModel>> alltopClotheList = new ArrayList<>();
+        List<List<ClothesModel>> allbottomClotheList = new ArrayList<>();
+        String tempStr = tempTxt.getText().toString().length() > 0 ? tempTxt.getText().toString().substring(0,2) : "28";
+        allClothes(new ListPassing() {
+            @Override
+            public void getAllData(ArrayList<ClothesModel> data) {
+                if (data.size() > 0) {
+                    ArrayList<ClothesModel> list = data;
+                    alltopClotheList.add(list);
+                    allClothes(new ListPassing() {
+                        @Override
+                        public void getAllData(ArrayList<ClothesModel> data) {
+                            if (data.size() > 0) {
+                                ArrayList<ClothesModel> list = data;
+                                alltopClotheList.add(list);
+
+                                for (List<ClothesModel> clothesModelList : alltopClotheList) {
+                                    for (ClothesModel c : clothesModelList) {
+                                        WeatherAlgo algo = new WeatherAlgo(getContext(), tempStr, String.valueOf(c.getClothColour()));
+                                        if (algo.startSuggestion()) {
+                                            suggestedTopList.add(c);
+                                            suggestedTopRecyAdapter.notifyDataSetChanged();
+                                            break;
+                                        }
+                                    }
+                                }
+                                loadingAlert.closeAlertDialog();
+
+                            } else {
+                                Toast.makeText(getContext(), "Failed to suggest!...", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    }, "TShirt");
+                } else {
+                    Toast.makeText(getContext(), "Failed to suggest!...", Toast.LENGTH_SHORT).show();
+                }
+
+            }
+        }, "Shirt");
+
+        allClothes(new ListPassing() {
+            @Override
+            public void getAllData(ArrayList<ClothesModel> data) {
+                if (data.size() > 0) {
+                    ArrayList<ClothesModel> list = data;
+                    allbottomClotheList.add(list);
+                    allClothes(new ListPassing() {
+                        @Override
+                        public void getAllData(ArrayList<ClothesModel> data) {
+                            if (data.size() > 0) {
+                                ArrayList<ClothesModel> list = data;
+                                allbottomClotheList.add(list);
+
+                                for (List<ClothesModel> clothesModelList : allbottomClotheList) {
+                                    for (ClothesModel c : clothesModelList) {
+                                        WeatherAlgo algo = new WeatherAlgo(getContext(), tempStr, String.valueOf(c.getClothColour()));
+                                        if (algo.startSuggestion()) {
+                                            suggestedBottomList.add(c);
+                                            suggestedBottomRecyAdapter.notifyDataSetChanged();
+                                            break;
+                                        }
+                                    }
+                                }
+                                loadingAlert.closeAlertDialog();
+
+                            } else {
+                                Toast.makeText(getContext(), "Failed to suggest!...", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    }, "Formal Pants");
+                } else {
+                    Toast.makeText(getContext(), "Failed to suggest!...", Toast.LENGTH_SHORT).show();
+                }
+
+            }
+        }, "Jeans");
+    }
+
+    public List<ClothesModel> allClothes(ListPassing inter, String category) {
+        ArrayList<ClothesModel> list = new ArrayList<>();
+        reference.child("Closet")
                 .child(_phone)
+                .child("Category")
+                .child(category)
                 .addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        if (snapshot.exists())
-                        {
-                            suggestionData.clear();
-                            for (DataSnapshot snapshot1 : snapshot.getChildren())
-                            {
-                                SuggestionModel suggestionModel = snapshot1.getValue(SuggestionModel.class);
-                                suggestionData.add(suggestionModel);
+                        if (snapshot.exists()) {
+                            for (DataSnapshot snapshot1 : snapshot.getChildren()) {
+                                ClothesModel clothesModel = snapshot1.getValue(ClothesModel.class);
+                                list.add(clothesModel);
                             }
-                            suggestionAdapter.notifyDataSetChanged();
+                            inter.getAllData(list);
+                        } else {
+                            inter.getAllData(new ArrayList<>());
                         }
                     }
 
@@ -290,7 +411,6 @@ public class Weather extends Fragment {
 
                     }
                 });
-
+        return list;
     }
-
 }

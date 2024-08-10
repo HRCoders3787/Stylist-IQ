@@ -101,5 +101,6 @@
     <string name="bottomwear">Bottomwear:</string>
     <string name="select_img">Select</string>
     <string name="schedule_cloth">Schedule Cloth</string>
+    <string name="top_cloth_suggestion">Top Cloth Suggestion</string>
 
 </resources>

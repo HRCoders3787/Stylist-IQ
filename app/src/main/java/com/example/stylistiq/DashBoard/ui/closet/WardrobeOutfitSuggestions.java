@@ -5,6 +5,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -19,7 +20,6 @@ import com.google.android.material.navigation.NavigationView;
 import java.util.ArrayList;
 
 public class WardrobeOutfitSuggestions extends AppCompatActivity {
-
 
     ArrayList<ClothesModel> allClothList;
     String[] receivedData = new String[6];
@@ -37,9 +37,6 @@ public class WardrobeOutfitSuggestions extends AppCompatActivity {
         Intent intent = getIntent();
         receivedData = intent.getStringArrayExtra("clothData");
         initialiseViews();
-
-
-
     }
 
     public void initialiseViews() {
@@ -51,13 +48,16 @@ public class WardrobeOutfitSuggestions extends AppCompatActivity {
         color_tv = findViewById(R.id.color_tv);
 
         back_btn.setOnClickListener(v -> finish());
-
         Glide.with(getApplicationContext()).load(receivedData[1]).into(cloth_img);
-        clothColor.setBackgroundColor(Integer.parseInt(receivedData[3]));
-        categoryTxt.setText(receivedData[2]);
+        if (receivedData.length > 0) {
+            clothColor.setBackgroundColor(Integer.parseInt(receivedData[3]));
+            categoryTxt.setText(receivedData[2]);
 //        color_tv.setText(String.format("#%06X", 0xFFFFFF & Integer.parseInt(receivedData[3])));
-        date_added_tv.setText(receivedData[4]);
-
+            date_added_tv.setText(receivedData[4]);
+            color_tv.setText(receivedData[5]);
+        } else {
+            Toast.makeText(this, "Empty passed data", Toast.LENGTH_SHORT).show();
+        }
 
     }
 }
